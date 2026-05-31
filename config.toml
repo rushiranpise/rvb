@@ -8,25 +8,6 @@ patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://1-1-1-1.en.uptodown.com/android"
 
-[citizen]
-# package-name = sp0n.citizen
-apkmirror-dlurl = "hhttps://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
-arch = "auto"
-dpi = "nodpi anydpi"
-enabled = true
-patches-source = "rushiranpise/morphe-patches"
-rv-brand = "Morphe"
-uptodown-dlurl = "https://citizen.en.uptodown.com/android"
-
-[casetracker]
-# package-name = com.saldous.casetracker
-arch = "auto"
-dpi = "nodpi anydpi"
-enabled = true
-patches-source = "rushiranpise/morphe-patches"
-rv-brand = "Morphe"
-uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
-
 [Adguard]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/adguard-software-limited/adguard"
 # package-name = com.adguard
@@ -56,6 +37,25 @@ enabled = true
 patches-source = "hoo-dles/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://camscanner-pdf-creator.en.uptodown.com/android"
+
+[casetracker]
+# package-name = com.saldous.casetracker
+arch = "auto"
+dpi = "nodpi anydpi"
+enabled = true
+patches-source = "rushiranpise/morphe-patches"
+rv-brand = "Morphe"
+uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
+
+[citizen]
+# package-name = sp0n.citizen
+apkmirror-dlurl = "hhttps://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
+arch = "auto"
+dpi = "nodpi anydpi"
+enabled = true
+patches-source = "rushiranpise/morphe-patches"
+rv-brand = "Morphe"
+uptodown-dlurl = "https://citizen.en.uptodown.com/android"
 
 [Cube-ACR]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
