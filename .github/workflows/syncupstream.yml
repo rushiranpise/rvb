@@ -1,0 +1,91 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    - cron: "20 16 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/nullcpy/rvb.git || true
+          git fetch upstream
+
+      - name: Sync commits
+        shell: bash
+        run: |
+          set -e
+
+          COMMITS=$(git rev-list --reverse HEAD..upstream/main)
+
+          if [ -z "$COMMITS" ]; then
+            echo "No new commits to sync"
+            exit 0
+          fi
+
+          for commit in $COMMITS; do
+            AUTHOR=$(git log -1 --pretty=%an "$commit")
+            SUBJECT=$(git log -1 --pretty=%s "$commit")
+
+            echo "Processing $commit"
+            echo "Author: $AUTHOR"
+            echo "Subject: $SUBJECT"
+
+            if [[ "$AUTHOR" == "github-actions[bot]" ]]; then
+              if [[ "$SUBJECT" == Update\ README\ for\ Build\ No.* ]]; then
+                echo "Skipping README generation commit"
+                continue
+              fi
+
+              if [[ "$SUBJECT" == Update\ patch\ sources\ and\ generated\ configs* ]]; then
+                echo "Skipping generated config commit"
+                continue
+              fi
+            fi
+
+            if ! git cherry-pick --no-commit "$commit"; then
+              echo "Cherry-pick conflict on $commit"
+              git cherry-pick --abort
+              exit 1
+            fi
+
+            git restore --source=HEAD config.toml
+            git restore --source=HEAD .github/build
+            git restore --source=HEAD README.md
+
+            git add -A
+
+            if git diff --cached --quiet; then
+              echo "Commit became empty after filtering"
+              git reset
+              continue
+            fi
+
+            git commit --no-edit
+          done
+
+      - name: Push changes
+        run: |
+          git push origin HEAD
