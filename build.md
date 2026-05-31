@@ -1,32 +1,9 @@
-Automate (arm64-v8a): 1.51.1  
-Adguard (arm64-v8a): 4.12.81  
-Cube-ACR (arm64-v8a): 2.4.281  
 DocScanner (arm64-v8a): 6.8.18  
 Eyecon (arm64-v8a): 4.2026.04.05.1300  
-Duolingo (arm64-v8a): 6.77.5  
-Facebook (arm64-v8a): 490.0.0.63.82  
-Fing (arm64-v8a): 12.11.9  
-Komoot (arm64-v8a): 2025.38.2  
+Fing (arm64-v8a): 12.12.0  
 MacroDroid (arm64-v8a): 5.62.11  
-Instagram (arm64-v8a): 426.0.0.37.68  
-Google-Photos (arm64-v8a): 7.78.0.920664585  
-Mapy (arm64-v8a): 26.5.0  
-Proton-Mail (arm64-v8a): 4.15.0  
-Proton-Vpn-Paresh (arm64-v8a): 5.17.72.0  
-Music (arm64-v8a): 8.47.56  
-Speedtest (arm64-v8a): 7.0.3  
-Splitwise (arm64-v8a): 26.4.3  
 Telegram (arm64-v8a): 12.6.4  
-CamScanner (arm64-v8a): 7.15.5.2604080000  
-Transit (arm64-v8a): 6.1.4  
-Strava (arm64-v8a): 465.9  
-Reddit (arm64-v8a): 2026.14.0  
-TikTok (arm64-v8a): 43.6.2  
-Unimote (arm64-v8a): 1.8.1  
 Truecaller (arm64-v8a): 26.10.6  
-Xodo (arm64-v8a): 10.13.0  
-WPS-Office (arm64-v8a): 18.24  
-YouTube (arm64-v8a): 20.51.39  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -35,35 +12,5 @@ YouTube (arm64-v8a): 20.51.39
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.0-all.jar  
-Patches: abhis1n/patches-1.0.0.mpp  
-[Changelog](https://github.com/abhis1n/Morphe-Patches/releases/tag/v1.0.0)
-
-Patches: andronedev/patches-2.3.0.mpp  
-[Changelog](https://github.com/andronedev/morphe-patches/releases/tag/v2.3.0)
-
-Patches: BholeyKaBhakt/patches-2.0.4.mpp  
-[Changelog](https://github.com/BholeyKaBhakt/android-patches-xtra/releases/tag/v2.0.4)
-
-Patches: brosssh/patches-2.6.2.mpp  
-[Changelog](https://github.com/brosssh/morphe-patches/releases/tag/v2.6.2)
-
-Patches: crimera/patches-3.4.0.mpp  
-[Changelog](https://github.com/crimera/piko/releases/tag/v3.4.0)
-
-Patches: hoo-dles/patches-1.34.0.mpp  
-[Changelog](https://github.com/hoo-dles/morphe-patches/releases/tag/v1.34.0)
-
-Patches: meridianfresco/patches-1.0.0.mpp  
-[Changelog](https://github.com/meridianfresco/morphe-meta-patches/releases/tag/v1.0.0)
-
-Patches: MorpheApp/patches-1.30.0.mpp  
-[Changelog](https://github.com/MorpheApp/morphe-patches/releases/tag/v1.30.0)
-
-Patches: Paresh-Maheshwari/patches-1.17.0.mpp  
-[Changelog](https://gitlab.com/Paresh-Maheshwari/paresh-patches/-/releases/v1.17.0)
-
-Patches: RookieEnough/patches-1.0.4.mpp  
-[Changelog](https://github.com/RookieEnough/De-Vanced/releases/tag/v1.0.4)
-
-Patches: rushiranpise/patches-1.1.0.mpp  
-[Changelog](https://github.com/rushiranpise/morphe-patches/releases/tag/v1.1.0)  
+Patches: Paresh-Maheshwari/patches-1.18.0-dev.4.mpp  
+[Changelog](https://gitlab.com/Paresh-Maheshwari/paresh-patches/-/releases/v1.18.0-dev.4)  
