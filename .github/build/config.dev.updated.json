@@ -44,7 +44,7 @@
     "uptodown-dlurl": "https://case-tracker-for-uscis.en.uptodown.com/android"
   },
   "citizen": {
-    "apkmirror-dlurl": "hhttps://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/",
+    "apkmirror-dlurl": "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/",
     "arch": "auto",
     "dpi": "nodpi anydpi",
     "enabled": false,
@@ -63,7 +63,7 @@
   "DocScanner": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -80,7 +80,7 @@
   "Eyecon": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -98,7 +98,7 @@
   "Fing": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -133,7 +133,7 @@
   "MacroDroid": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -166,7 +166,7 @@
   "Proton-Vpn-Paresh": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -207,7 +207,7 @@
   "Telegram": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -234,7 +234,7 @@
     "arch": "arm64-v8a",
     "archive-dlurl": "https://archive.org/download/geologically/apks/com.truecaller/",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe"
