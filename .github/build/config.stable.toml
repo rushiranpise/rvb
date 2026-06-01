@@ -49,7 +49,7 @@ uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
 
 [citizen]
 # package-name = sp0n.citizen
-apkmirror-dlurl = "hhttps://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
