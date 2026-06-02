@@ -57,6 +57,15 @@ patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://citizen.en.uptodown.com/android"
 
+[crimeradar]
+# package-name = com.newsbreak.crimeradar
+arch = "auto"
+dpi = "nodpi anydpi"
+enabled = true
+patches-source = "rushiranpise/morphe-patches"
+rv-brand = "Morphe"
+uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
+
 [Cube-ACR]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
 # package-name = com.catalinagroup.callrecorder
