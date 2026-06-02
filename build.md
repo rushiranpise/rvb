@@ -8,26 +8,26 @@ Duolingo (arm64-v8a): 6.77.5
 Fing (arm64-v8a): 12.11.9  
 Komoot (arm64-v8a): 2025.38.2  
 Instagram (arm64-v8a): 426.0.0.37.68  
-Google-Photos (arm64-v8a): 7.78.0.920664585  
 MacroDroid (arm64-v8a): 5.62.11  
+Google-Photos (arm64-v8a): 7.78.0.920664585  
 Mapy (arm64-v8a): 26.5.0  
 Proton-Mail (arm64-v8a): 4.15.0  
-CamScanner (arm64-v8a): 7.15.5.2604080000  
+Music (arm64-v8a): 8.47.56  
 Proton-Vpn-Paresh (arm64-v8a): 5.17.72.0  
 Speedtest (arm64-v8a): 7.0.3  
-Music (arm64-v8a): 8.47.56  
 Splitwise (arm64-v8a): 26.4.3  
-Reddit (arm64-v8a): 2026.14.0  
+CamScanner (arm64-v8a): 7.15.5.2604080000  
 Telegram (arm64-v8a): 12.6.4  
-Strava (arm64-v8a): 465.9  
 Transit (arm64-v8a): 6.1.4  
+Strava (arm64-v8a): 465.9  
+Reddit (arm64-v8a): 2026.14.0  
+TikTok (arm64-v8a): 43.6.2  
 Unimote (arm64-v8a): 1.8.1  
 Truecaller (arm64-v8a): 26.10.6  
-WPS-Office (arm64-v8a): 18.24  
 Xodo (arm64-v8a): 10.13.0  
-TikTok (arm64-v8a): 43.6.2  
-YouTube (arm64-v8a): 20.51.39  
+WPS-Office (arm64-v8a): 18.24  
 citizen (all): 0.1291.0  
+YouTube (arm64-v8a): 20.51.39  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -66,5 +66,5 @@ Patches: Paresh-Maheshwari/patches-1.17.0.mpp
 Patches: RookieEnough/patches-1.0.4.mpp  
 [Changelog](https://github.com/RookieEnough/De-Vanced/releases/tag/v1.0.4)
 
-Patches: rushiranpise/patches-1.3.0.mpp  
-[Changelog](https://github.com/rushiranpise/morphe-patches/releases/tag/v1.3.0)  
+Patches: rushiranpise/patches-1.2.0.mpp  
+[Changelog](https://github.com/rushiranpise/morphe-patches/releases/tag/v1.2.0)  
