@@ -250,7 +250,7 @@ uptodown-dlurl = "https://speedtest-net-mobile.en.uptodown.com/android"
 arch = "arm64-v8a"
 dpi = "nodpi"
 enabled = true
-patches-source = "abhis1n/Morphe-Patches"
+patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://splitwise.en.uptodown.com/android"
 
