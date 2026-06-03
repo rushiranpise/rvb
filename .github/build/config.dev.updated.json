@@ -133,7 +133,7 @@
   "Komoot": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "brosssh/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://komoot.en.uptodown.com/android"
@@ -150,7 +150,7 @@
   "Mapy": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "brosssh/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://mapy-cz.en.uptodown.com/android"
@@ -158,7 +158,7 @@
   "Music": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": false,
+    "enabled": true,
     "patches-source": "MorpheApp/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://youtube-music.en.uptodown.com/android"
@@ -183,7 +183,7 @@
   "Reddit": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": false,
+    "enabled": true,
     "patches-source": "MorpheApp/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://reddit-official-app.en.uptodown.com/android"
@@ -200,7 +200,7 @@
     "arch": "arm64-v8a",
     "dpi": "nodpi",
     "enabled": false,
-    "patches-source": "abhis1n/Morphe-Patches",
+    "patches-source": "rushiranpise/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://splitwise.en.uptodown.com/android"
   },
@@ -282,7 +282,7 @@
   "YouTube": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": false,
+    "enabled": true,
     "patches-source": "MorpheApp/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://youtube.en.uptodown.com/android"
