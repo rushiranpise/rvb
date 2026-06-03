@@ -12,5 +12,5 @@ Truecaller (arm64-v8a): 26.10.6
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.0-all.jar  
-Patches: Paresh-Maheshwari/patches-1.18.1-dev.1.mpp  
-[Changelog](https://gitlab.com/Paresh-Maheshwari/paresh-patches/-/releases/v1.18.1-dev.1)  
+Patches: Paresh-Maheshwari/patches-1.18.0.mpp  
+[Changelog](https://gitlab.com/Paresh-Maheshwari/paresh-patches/-/releases/v1.18.0)  
