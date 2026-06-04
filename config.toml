@@ -1,9 +1,12 @@
 [1-1-1-1]
 # package-name = com.cloudflare.onedotonedotonedotone
-apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
+# arch = "arm64-v8a"
+# dpi = "nodpi anydpi"
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
+version = "latest"
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://1-1-1-1.en.uptodown.com/android"
@@ -43,6 +46,7 @@ uptodown-dlurl = "https://camscanner-pdf-creator.en.uptodown.com/android"
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
+version = "latest"
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
@@ -62,6 +66,7 @@ uptodown-dlurl = "https://citizen.en.uptodown.com/android"
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
+version = "latest"
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
@@ -310,13 +315,17 @@ patches-source-host = "gitlab"
 rv-brand = "Morphe"
 
 [Twitter]
-# archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
 # include-stock = "split"
 # package-name = com.twitter.android
-arch = "arm64-v8a"
-dpi = "nodpi"
+# arch = "arm64-v8a"
+# dpi = "nodpi"
 enabled = true
+uptodown-dlurl = "https://twitter.en.uptodown.com/android/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter/"
 github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/x-twitter"
+#nversion = "11.81.0-release.0"
+arch = "arm64-v8a"
 patches-source = "crimera/piko"
 rv-brand = "Morphe"
 
