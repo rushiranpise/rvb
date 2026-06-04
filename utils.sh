@@ -618,15 +618,17 @@ dl_apkmirror() {
 # -------------------- apkpure --------------------
 get_apkpure_resp() {
 	local url=$1
-	pr "Fetching APKPure page: $url"
-	local html=""
-	_fs_get "$url" || return 1
-	__APKPURE_RESP__="$html"
-	# Store the package name extracted from the URL path (last component before /downloading/)
-	# APKPure URLs: https://apkpure.com/<app-name>/<pkg>/downloading/
+	# Normalize: strip any trailing /downloading[/...] or /versions so users
+	# can supply just https://apkpure.com/<app-slug>/<pkg>/ — /downloading/ is appended by code.
+	url="${url%/downloading*}"
+	url="${url%/versions*}"
+	url="${url%/}"
+	__APKPURE_BASE_URL__="$url"
 	__APKPURE_PKG__=$(echo "$url" | grep -oP '[a-z][a-z0-9]*(\.[a-z][a-z0-9]*){1,}' | tail -1)
-	__APKPURE_BASE_URL__="${url%/downloading/*}"
-	__APKPURE_BASE_URL__="${__APKPURE_BASE_URL__%/versions}"
+	pr "Fetching APKPure page: ${url}/downloading/"
+	local html=""
+	_fs_get "${url}/downloading/" || return 1
+	__APKPURE_RESP__="$html"
 }
 
 get_apkpure_vers() {
