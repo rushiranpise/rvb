@@ -1,15 +1,16 @@
 [1-1-1-1]
-# package-name = com.cloudflare.onedotonedotonedotone
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
 # arch = "arm64-v8a"
 # dpi = "nodpi anydpi"
+# package-name = com.cloudflare.onedotonedotonedotone
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
-version = "latest"
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://1-1-1-1.en.uptodown.com/android"
+
+version = "latest"
 
 [Adguard]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/adguard-software-limited/adguard"
@@ -46,10 +47,11 @@ uptodown-dlurl = "https://camscanner-pdf-creator.en.uptodown.com/android"
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
-version = "latest"
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
+
+version = "latest"
 
 [citizen]
 # package-name = sp0n.citizen
@@ -66,10 +68,11 @@ uptodown-dlurl = "https://citizen.en.uptodown.com/android"
 arch = "auto"
 dpi = "nodpi anydpi"
 enabled = true
-version = "latest"
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
+
+version = "latest"
 
 [Cube-ACR]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
@@ -315,19 +318,20 @@ patches-source-host = "gitlab"
 rv-brand = "Morphe"
 
 [Twitter]
-archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
-# include-stock = "split"
-# package-name = com.twitter.android
 # arch = "arm64-v8a"
 # dpi = "nodpi"
-enabled = true
-uptodown-dlurl = "https://twitter.en.uptodown.com/android/"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter/"
-github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/x-twitter"
+# include-stock = "split"
+# package-name = com.twitter.android
 #nversion = "11.81.0-release.0"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter/"
 arch = "arm64-v8a"
+archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
+enabled = true
+github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/x-twitter"
 patches-source = "crimera/piko"
 rv-brand = "Morphe"
+
+uptodown-dlurl = "https://twitter.en.uptodown.com/android/"
 
 [Unimote]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
