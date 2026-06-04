@@ -1,4 +1,4 @@
-Twitter (arm64-v8a): 11.69.0-release.0  
+Twitter (arm64-v8a): 11.81.0-release.0  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
