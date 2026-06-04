@@ -133,6 +133,7 @@ for table_name in $(toml_get_table_names); do
 			app_args[${dl_from}_dlurl]=""
 		fi
 	done
+	app_args[apkmirror_example_url]=$(toml_get "$t" "apkmirror-example-url") || app_args[apkmirror_example_url]=""
 	if [ -z "${app_args[dl_from]-}" ]; then abort "ERROR: no 'dlurl' option was set for '$table_name'. (${DL_SRCS[*]})"; fi
 	app_args[arch]=$(toml_get "$t" arch) || app_args[arch]="auto"
 	if ! isoneof "${app_args[arch]}" "auto" "both" "all" "arm64-v8a" "arm-v7a" "x86_64" "x86"; then

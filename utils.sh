@@ -440,6 +440,10 @@ _fs_get() {
 }
 
 # -------------------- apkmirror --------------------
+# __APKMIRROR_EXAMPLE_URL__ optionally holds a known release page URL so we can
+# derive the correct slug by substituting the version, e.g.:
+#   https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/1-1-1-1-warp-safer-internet-6-38-7-release/
+# Set via apkmirror-example-url in config.toml.
 get_apkmirror_resp() {
 	local url=$1
 	pr "Fetching APKMirror page: $url"
@@ -449,6 +453,8 @@ get_apkmirror_resp() {
 	__APKMIRROR_CAT__="${url##*/}"
 	# strip trailing query params from category
 	__APKMIRROR_CAT__="${__APKMIRROR_CAT__%%\?*}"
+	# Pick up the example URL from args if provided (set by build_rv from config)
+	__APKMIRROR_EXAMPLE_URL__="${args[apkmirror_example_url]:-}"
 }
 
 get_apkmirror_vers() {
@@ -483,35 +489,60 @@ dl_apkmirror() {
 
 	if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
 
-	# Build the release page URL from the app listing page
-	local apkmname version_slug version_href
-	apkmname=$(sed -n 's;.*<h1[^>]*class="marginZero"[^>]*>\(.*\)</h1>.*;\1;p' <<<"$__APKMIRROR_RESP__" | head -1)
-	[ -z "$apkmname" ] && apkmname=$(echo "$__APKMIRROR_RESP__" | grep -oP '(?<=<h1 class="marginZero">)[^<]+' | head -1)
-	apkmname="${apkmname,,}" apkmname="${apkmname// /-}" apkmname="${apkmname//[^a-z0-9-]/}"
-	version_slug="${version//./-}"
-	version_href="${url%/}/${apkmname}-${version_slug}-release/"
+	# Derive the release page URL.
+	# Strategy 1 (preferred): use apkmirror-example-url from config to get the correct
+	# slug, then substitute the version digits — same approach as FiorenMas.
+	# Strategy 2 (fallback): search the listing page for a link containing the version.
+	local version_href=""
+	local list_url="https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}"
 
-	pr "Fetching APKMirror release page: $version_href"
-	_fs_get "$version_href" || return 1
+	if [ -n "${__APKMIRROR_EXAMPLE_URL__:-}" ]; then
+		# Strip base URL to get just the path, e.g. /apk/cloudflare/.../1-1-1-1-warp-safer-internet-6-38-7-release/
+		local example_path="${__APKMIRROR_EXAMPLE_URL__#$base_url}"
+		# Extract the version slug from the example path (last digit sequence like 6-38-7)
+		local slug_ver
+		slug_ver=$(echo "$example_path" | grep -oP '\d+(-\d+)+' | tail -1)
+		# Build the target version slug from the requested version
+		local target_ver
+		target_ver=$(echo "$version" | tr '.' '-' | grep -oP '\d+(-\d+)+')
+		if [ -n "$slug_ver" ] && [ -n "$target_ver" ]; then
+			version_href="${example_path/$slug_ver/$target_ver}"
+		fi
+	fi
 
-	# Handle 404 / page not found — search the listing pages
-	if [[ "$html" == *"Page Not Found"* ]] || [[ "$html" == *"404 Whoops"* ]]; then
-		wpr "Release page not found directly; searching listing pages…"
-		local list_url="https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}"
-		version_href=""
+	if [ -n "$version_href" ]; then
+		pr "Fetching APKMirror release page (via example URL): $base_url$version_href"
+		_fs_get "$base_url$version_href" || return 1
+		# If this specific version page 404s, fall through to listing search below
+		if [[ "$html" == *"Page Not Found"* ]] || [[ "$html" == *"404 Whoops"* ]]; then
+			wpr "Derived release page not found ($base_url$version_href); falling back to listing search…"
+			version_href=""
+		fi
+	fi
+
+	if [ -z "$version_href" ]; then
+		wpr "Searching APKMirror listing pages for version $version…"
 		for page_num in $(seq 1 10); do
 			local page_url="$list_url"
 			[[ $page_num -gt 1 ]] && page_url="${list_url%%\?*}/page/$page_num/?${list_url#*\?}"
 			_fs_get "$page_url" || return 1
-			version_href=$(echo "$html" | grep -oP 'h5[^>]*appRowTitle[^>]*>.*?<a[^>]+class="fontBlack"[^>]+href="\K[^"]+' | \
-				grep -i "${version//./-}" | head -1) || true
-			[[ -n "$version_href" ]] && break
+			# Match any release link whose text or href contains the version digits
+			version_href=$(echo "$html" | \
+				grep -oP '(?<=href=")[^"]+(?=[^>]*>[^<]*'"${version//./-}"')' | \
+				grep -i 'release' | head -1) || true
+			[ -z "$version_href" ] && \
+				version_href=$(echo "$html" | \
+					grep -oP 'href="\K/apk/[^"]*'"${version//./-}"'[^"]*release[^"]*' | head -1) || true
+			if [ -n "$version_href" ]; then
+				pr "Found release page on listing page $page_num: $base_url$version_href"
+				_fs_get "$base_url$version_href" || return 1
+				break
+			fi
 		done
-		if [[ -z "$version_href" ]]; then
+		if [ -z "$version_href" ]; then
 			epr "Could not find version $version on APKMirror"
 			return 1
 		fi
-		_fs_get "$base_url$version_href" || return 1
 	fi
 
 	# Select variant: prefer APK, fall back to BUNDLE; filter by arch and dpi
@@ -632,14 +663,14 @@ get_apkpure_resp() {
 }
 
 get_apkpure_vers() {
-	# APKPure versions page lists version strings in <span class="ver-item-n"> or similar
-	local html=""
-	_fs_get "${__APKPURE_BASE_URL__}/versions" || {
-		# fallback: parse cached resp for latest version
-		echo "$__APKPURE_RESP__" | grep -oP '(?<=<span class="info-sdk">)[^<]+' | head -1
-		return 0
-	}
-	echo "$html" | grep -oP '\d+(\.\d+)+' | sort -Vu
+	# The latest version is on the /downloading/ page we already fetched in get_apkpure_resp.
+	# Parse it from the <h2> tag (same as FiorenMas uses pup 'h2 text{}').
+	# We scope to <h2>...</h2> to avoid matching internal IDs like "53870.98500".
+	local ver
+	ver=$(echo "$__APKPURE_RESP__" | grep -oP '(?<=<h2[^>]*>)[^<]*' | grep -oP '\d+\.\d+[.\d]*' | head -1) || true
+	# Fallback: look for version in the page title or meta
+	[ -z "$ver" ] && ver=$(echo "$__APKPURE_RESP__" | grep -oP '(?<=<title>[^<]*APKPure[^<]* )\d+\.\d+[.\d]*' | head -1) || true
+	echo "$ver"
 }
 
 get_apkpure_pkg_name() { echo "$__APKPURE_PKG__"; }
@@ -664,9 +695,9 @@ dl_apkpure() {
 	pr "Fetching APKPure download page: $dl_page_url"
 	_fs_get "$dl_page_url" || return 1
 
-	# Detect actual version if not set
+	# Detect actual version if not set — scope to <h2> to avoid internal IDs
 	if [ -z "$version" ]; then
-		version=$(echo "$html" | grep -oP '(?<=<h2[^>]*>)[^<]*\d+\.\d+[^<]*' | grep -oP '\d+(\.\d+)+' | head -1)
+		version=$(echo "$html" | grep -oP '(?<=<h2[^>]*>)[^<]*' | grep -oP '\d+\.\d+[.\d]*' | head -1) || true
 		pr "Detected APKPure version: $version"
 	fi
 

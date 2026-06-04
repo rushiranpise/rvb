@@ -1,5 +1,6 @@
 [1-1-1-1]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
+# apkmirror-example-url = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/1-1-1-1-warp-safer-internet-6-38-7-release/"
 # arch = "arm64-v8a"
 # dpi = "nodpi anydpi"
 # package-name = com.cloudflare.onedotonedotonedotone
