@@ -437,14 +437,17 @@ _fs_get() {
 
 # -------------------- apkmirror --------------------
 get_apkmirror_resp() {
-	__APKMIRROR_RESP__=$(req "${1}" -) || return 1
+	local html=""
+	_fs_get "${1}" || return 1
+	__APKMIRROR_RESP__="$html"
 	__APKMIRROR_CAT__="${1##*/}"
 	__APKMIRROR_EXAMPLE_URL__="${args[apkmirror_example_url]:-}"
 }
 
 get_apkmirror_vers() {
-	local vers apkm_resp
-	apkm_resp=$(req "https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}" -)
+	local vers apkm_resp html=""
+	_fs_get "https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}" || return 1
+	apkm_resp="$html"
 	vers=$(sed -n 's;.*Version:</span><span class="infoSlide-value">\(.*\) </span>.*;\1;p' <<<"$apkm_resp" | awk '{$1=$1}1')
 	if [ "$__AAV__" = false ]; then
 		local IFS=$'\n'
@@ -620,8 +623,8 @@ get_apkpure_resp() {
 
 get_apkpure_vers() {
 	local ver
-	ver=$(echo "$__APKPURE_RESP__" | grep -oP '(?<=<h2[^>]{0,100}>)[^<]+' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
-	[ -z "$ver" ] && ver=$(echo "$__APKPURE_RESP__" | grep -oP '"softwareVersion"\s*:\s*"\K[^"]+' | head -1) || true
+	ver=$(echo "$__APKPURE_RESP__" | sed 's/<h2[^>]*>/\n__H2__/g' | grep '__H2__' | sed 's/__H2__//' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
+	[ -z "$ver" ] && ver=$(echo "$__APKPURE_RESP__" | grep -oP '"softwareVersion":"\K[^"]+' | head -1) || true
 	echo "$ver"
 }
 
@@ -646,8 +649,8 @@ dl_apkpure() {
 	_fs_get "$dl_page_url" || return 1
 
 	if [ -z "$version" ]; then
-		version=$(echo "$html" | grep -oP '(?<=<h2[^>]{0,100}>)[^<]+' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
-		[ -z "$version" ] && version=$(echo "$html" | grep -oP '"softwareVersion"\s*:\s*"\K[^"]+' | head -1) || true
+		version=$(echo "$html" | sed 's/<h2[^>]*>/\n__H2__/g' | grep '__H2__' | sed 's/__H2__//' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
+		[ -z "$version" ] && version=$(echo "$html" | grep -oP '"softwareVersion":"\K[^"]+' | head -1) || true
 		pr "Detected APKPure version: $version"
 	fi
 
