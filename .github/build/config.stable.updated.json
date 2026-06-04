@@ -70,7 +70,7 @@
   "DocScanner": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -87,7 +87,7 @@
   "Eyecon": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -105,7 +105,7 @@
   "Fing": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -132,7 +132,7 @@
   "Komoot": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": false,
+    "enabled": true,
     "patches-source": "brosssh/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://komoot.en.uptodown.com/android"
@@ -140,7 +140,7 @@
   "MacroDroid": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -149,7 +149,7 @@
   "Mapy": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": false,
+    "enabled": true,
     "patches-source": "brosssh/morphe-patches",
     "rv-brand": "Morphe",
     "uptodown-dlurl": "https://mapy-cz.en.uptodown.com/android"
@@ -173,7 +173,7 @@
   "Proton-Vpn-Paresh": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -214,7 +214,7 @@
   "Telegram": {
     "arch": "arm64-v8a",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe",
@@ -241,7 +241,7 @@
     "arch": "arm64-v8a",
     "archive-dlurl": "https://archive.org/download/geologically/apks/com.truecaller/",
     "dpi": "nodpi",
-    "enabled": true,
+    "enabled": false,
     "patches-source": "Paresh-Maheshwari/paresh-patches",
     "patches-source-host": "gitlab",
     "rv-brand": "Morphe"
