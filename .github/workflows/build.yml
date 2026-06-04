@@ -38,6 +38,18 @@ jobs:
           distribution: "temurin"
           java-version: "21"
 
+      - name: Start FlareSolverr
+        run: |
+          docker run -d --name flaresolverr -p 8191:8191 ghcr.io/flaresolverr/flaresolverr:latest
+          echo "[*] Waiting for FlareSolverr to be ready..."
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:8191/ > /dev/null 2>&1; then
+              echo "[+] FlareSolverr is ready."
+              break
+            fi
+            sleep 2
+          done
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
