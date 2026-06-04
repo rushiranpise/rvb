@@ -5,7 +5,7 @@ CWD=$(pwd)
 TEMP_DIR="temp"
 BIN_DIR="bin"
 BUILD_DIR="build"
-DL_SRCS=("direct" "github" "archive" "apkmirror" "uptodown")
+DL_SRCS=("direct" "github" "archive" "apkmirror" "apkpure" "uptodown")
 BUILD_JSON_FILE="build.json"
 PATCH_OUTPUT=""
 
@@ -409,82 +409,52 @@ merge_splits() {
 	return 0
 }
 
-# -------------------- apkmirror --------------------
-apkmirror_search() {
-	local resp="$1" dpi="$2" arch="$3" apk_bundle="$4"
-	local dlurl="" node app_table emptyCheck
-
-	local apparch=('universal' 'noarch' 'arm64-v8a + armeabi-v7a')
-	if [ "$arch" != all ]; then
-		apparch+=("$arch")
-	fi
-
-	local appdpi=("nodpi" "anydpi")
-	if [ "$dpi" ]; then
-		appdpi+=($dpi)
-	fi
-
-	for ((n = 1; n < 40; n++)); do
-		node=$($HTMLQ "div.table-row.headerFont:nth-last-child($n)" -r "span:nth-child(n+3)" <<<"$resp")
-		if [ -z "$node" ]; then break; fi
-		emptyCheck=$($HTMLQ -t -w "div.table-cell:nth-child(1) > a:nth-child(1)" <<<"$node" | xargs)
-		if [ -z "$emptyCheck" ]; then break; fi
-		app_table=$($HTMLQ --text --ignore-whitespace <<<"$node")
-		if [ "$(sed -n 3p <<<"$app_table")" != "$apk_bundle" ]; then continue; fi
-		dlurl=$($HTMLQ --base https://www.apkmirror.com --attribute href "div:nth-child(1) > a:nth-child(1)" <<<"$node")
-		if isoneof "$(sed -n 6p <<<"$app_table")" "${appdpi[@]}" &&
-			isoneof "$(sed -n 4p <<<"$app_table")" "${apparch[@]}"; then
-			echo "$dlurl"
+# -------------------- FlareSolverr helper --------------------
+# Fetches a URL via FlareSolverr to bypass Cloudflare bot protection.
+# Sets $html, $FS_COOKIES, and $user_agent on success.
+_fs_get() {
+	local url=$1
+	local max_retries=5 attempt
+	local fs_url="${FLARESOLVERR_URL:-http://localhost:8191}/v1"
+	for attempt in $(seq 1 $max_retries); do
+		local response status
+		response=$(curl -s -X POST "$fs_url" \
+			-H 'Content-Type: application/json' \
+			-d "{\"cmd\":\"request.get\",\"url\":\"$url\",\"maxTimeout\":60000}") || true
+		status=$(echo "$response" | jq -r '.status // empty')
+		if [[ "$status" == "ok" ]]; then
+			html=$(echo "$response" | jq -r '.solution.response // empty')
+			export FS_COOKIES
+			FS_COOKIES=$(echo "$response" | jq -r '[.solution.cookies[] | .name + "=" + .value] | join("; ")')
+			user_agent=$(echo "$response" | jq -r '.solution.userAgent // empty')
 			return 0
 		fi
+		wpr "FlareSolverr attempt $attempt/$max_retries failed for: $url"
+		sleep 10
 	done
-	if [ "$n" -eq 2 ] && [ "$dlurl" ]; then
-		# only one apk exists, return it
-		echo "$dlurl"
-		return 0
-	fi
-	return 1
+	epr "FlareSolverr failed after $max_retries attempts: $url — falling back to plain request"
+	# Graceful fallback: attempt a plain curl request
+	html=$(req "$url" -) || return 1
+	FS_COOKIES=""
+	user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
 }
-dl_apkmirror() {
-	local url=$1 version=${2// /-} output=$3 arch=$4 dpi=$5 is_bundle=false
 
-	if [ -f "${output}.apkm" ]; then
-		merge_splits "${output}.apkm" "${output}"
-		return 0
-	fi
-
-	if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
-	local resp node app_table apkmname dlurl=""
-	apkmname=$($HTMLQ "h1.marginZero" --text <<<"$__APKMIRROR_RESP__")
-	apkmname="${apkmname,,}" apkmname="${apkmname// /-}" apkmname="${apkmname//[^a-z0-9-]/}"
-	url="${url}/${apkmname}-${version//./-}-release/"
-	resp=$(req "$url" -) || return 1
-	node=$($HTMLQ "div.table-row.headerFont:nth-last-child(1)" -r "span:nth-child(n+3)" <<<"$resp")
-	if [ "$node" ]; then
-		for type in APK BUNDLE; do
-			if dlurl=$(apkmirror_search "$resp" "$dpi" "$arch" "$type"); then
-				if [ "$type" = "BUNDLE" ]; then
-					is_bundle=true
-				else is_bundle=false; fi
-				break 2
-			fi
-		done
-		if [ -z "$dlurl" ]; then return 1; fi
-		resp=$(req "$dlurl" -)
-	fi
-	url=$(echo "$resp" | $HTMLQ --base https://www.apkmirror.com --attribute href "a.btn") || return 1
-	url=$(req "$url" - | $HTMLQ --base https://www.apkmirror.com --attribute href "span > a[rel = nofollow]") || return 1
-
-	if [ "$is_bundle" = true ]; then
-		req "$url" "${output}.apkm" || return 1
-		merge_splits "${output}.apkm" "${output}"
-	else
-		req "$url" "${output}" || return 1
-	fi
+# -------------------- apkmirror --------------------
+get_apkmirror_resp() {
+	local url=$1
+	pr "Fetching APKMirror page: $url"
+	local html=""
+	_fs_get "$url" || return 1
+	__APKMIRROR_RESP__="$html"
+	__APKMIRROR_CAT__="${url##*/}"
+	# strip trailing query params from category
+	__APKMIRROR_CAT__="${__APKMIRROR_CAT__%%\?*}"
 }
+
 get_apkmirror_vers() {
-	local vers apkm_resp
-	apkm_resp=$(req "https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}" -)
+	local vers apkm_resp html=""
+	_fs_get "https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}" || return 1
+	apkm_resp="$html"
 	vers=$(sed -n 's;.*Version:</span><span class="infoSlide-value">\(.*\) </span>.*;\1;p' <<<"$apkm_resp" | awk '{$1=$1}1')
 	if [ "$__AAV__" = false ]; then
 		local IFS=$'\n'
@@ -498,10 +468,241 @@ get_apkmirror_vers() {
 		echo "$vers"
 	fi
 }
+
 get_apkmirror_pkg_name() { sed -n 's;.*id=\(.*\)" class="accent_color.*;\1;p' <<<"$__APKMIRROR_RESP__"; }
-get_apkmirror_resp() {
-	__APKMIRROR_RESP__=$(req "${1}" -) || return 1
-	__APKMIRROR_CAT__="${1##*/}"
+
+dl_apkmirror() {
+	local url=$1 version=$2 output=$3 arch=$4 dpi=${5:-} is_bundle=false
+	local base_url="https://www.apkmirror.com"
+	local html=""
+
+	if [ -f "${output}.apkm" ]; then
+		merge_splits "${output}.apkm" "${output}"
+		return 0
+	fi
+
+	if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
+
+	# Build the release page URL from the app listing page
+	local apkmname version_slug version_href
+	apkmname=$(sed -n 's;.*<h1[^>]*class="marginZero"[^>]*>\(.*\)</h1>.*;\1;p' <<<"$__APKMIRROR_RESP__" | head -1)
+	[ -z "$apkmname" ] && apkmname=$(echo "$__APKMIRROR_RESP__" | grep -oP '(?<=<h1 class="marginZero">)[^<]+' | head -1)
+	apkmname="${apkmname,,}" apkmname="${apkmname// /-}" apkmname="${apkmname//[^a-z0-9-]/}"
+	version_slug="${version//./-}"
+	version_href="${url%/}/${apkmname}-${version_slug}-release/"
+
+	pr "Fetching APKMirror release page: $version_href"
+	_fs_get "$version_href" || return 1
+
+	# Handle 404 / page not found — search the listing pages
+	if [[ "$html" == *"Page Not Found"* ]] || [[ "$html" == *"404 Whoops"* ]]; then
+		wpr "Release page not found directly; searching listing pages…"
+		local list_url="https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}"
+		version_href=""
+		for page_num in $(seq 1 10); do
+			local page_url="$list_url"
+			[[ $page_num -gt 1 ]] && page_url="${list_url%%\?*}/page/$page_num/?${list_url#*\?}"
+			_fs_get "$page_url" || return 1
+			version_href=$(echo "$html" | grep -oP 'h5[^>]*appRowTitle[^>]*>.*?<a[^>]+class="fontBlack"[^>]+href="\K[^"]+' | \
+				grep -i "${version//./-}" | head -1) || true
+			[[ -n "$version_href" ]] && break
+		done
+		if [[ -z "$version_href" ]]; then
+			epr "Could not find version $version on APKMirror"
+			return 1
+		fi
+		_fs_get "$base_url$version_href" || return 1
+	fi
+
+	# Select variant: prefer APK, fall back to BUNDLE; filter by arch and dpi
+	local type_badge="APK"
+	local rows vtable_html variant_href="" matched_type=""
+	vtable_html=$(echo "$html" | grep -oP '<div class="variants-table">.*?</div>\s*</div>\s*</div>' | head -1) || true
+	[ -z "$vtable_html" ] && vtable_html="$html"
+	rows=$(echo "$vtable_html" | tr '\n' ' ' | sed 's/<div class="table-row/\n<div class="table-row/g')
+
+	local dpi_fallback=("nodpi" "anydpi" "120-640dpi" "120-480dpi" "480-640dpi" "480dpi")
+	local type_attempts=("APK" "BUNDLE")
+
+	for try_type in "${type_attempts[@]}"; do
+		local filtered_rows
+		filtered_rows=$(echo "$rows" | grep -iP "apkm-badge[^>]*>\s*$try_type\s*<") || true
+		[ -n "$arch" ] && filtered_rows=$(echo "$filtered_rows" | grep -iv "x86\|noarch\|universal" | grep -i "$arch") || true
+
+		if [ -n "$dpi" ]; then
+			local dpi_filtered
+			dpi_filtered=$(echo "$filtered_rows" | grep -i "$dpi") || true
+			if [ -z "$dpi_filtered" ]; then
+				for fb_dpi in "${dpi_fallback[@]}"; do
+					dpi_filtered=$(echo "$filtered_rows" | grep -i "$fb_dpi") || true
+					[ -n "$dpi_filtered" ] && { wpr "DPI fallback: $dpi -> $fb_dpi"; break; }
+				done
+			fi
+			filtered_rows="$dpi_filtered"
+		fi
+
+		variant_href=$(echo "$filtered_rows" | grep -oP 'class="accent_color[^>]+href="\K[^"]+' | head -1) || true
+		if [ -n "$variant_href" ]; then
+			matched_type="$try_type"
+			[ "$try_type" != "APK" ] && { wpr "APK not found, falling back to BUNDLE"; is_bundle=true; }
+			break
+		fi
+	done
+
+	# Last-resort: grab the first variant link on the page
+	if [ -z "$variant_href" ]; then
+		variant_href=$(echo "$html" | grep -oP 'class="accent_color[^>]+href="\K[^/][^"]*apk[^"]+' | head -1) || true
+	fi
+
+	if [ -z "$variant_href" ]; then
+		epr "Could not find a suitable variant on APKMirror (arch=$arch dpi=$dpi)"
+		return 1
+	fi
+
+	variant_href=$(echo "$variant_href" | sed 's/&amp;/\&/g')
+	pr "Fetching variant page: $base_url$variant_href"
+	_fs_get "$base_url$variant_href" || return 1
+
+	# Click the download button
+	local all_dl_btns dl_btn_href
+	all_dl_btns=$(echo "$html" | grep -oP '<a[^>]+class="[^"]*downloadButton[^"]*"[^>]+href="\K[^"]+') || true
+	if [ "$is_bundle" = true ]; then
+		dl_btn_href=$(echo "$all_dl_btns" | grep -v 'forcebaseapk' | head -1)
+		[ -z "$dl_btn_href" ] && dl_btn_href=$(echo "$all_dl_btns" | head -1)
+	else
+		dl_btn_href=$(echo "$all_dl_btns" | grep 'forcebaseapk' | head -1)
+		[ -z "$dl_btn_href" ] && dl_btn_href=$(echo "$all_dl_btns" | head -1)
+	fi
+
+	if [ -z "$dl_btn_href" ]; then
+		epr "Could not find download button on APKMirror"
+		return 1
+	fi
+	dl_btn_href=$(echo "$dl_btn_href" | sed 's/&amp;/\&/g')
+
+	pr "Fetching download confirmation page: $base_url$dl_btn_href"
+	_fs_get "$base_url$dl_btn_href" || return 1
+
+	# Extract the final direct download link
+	local final_href
+	final_href=$(echo "$html" | grep -oP 'id="download-link"[^>]+href="\K[^"]+' | head -1) || true
+	[ -z "$final_href" ] && final_href=$(echo "$html" | grep -oP '<a[^>]+id="download-link"[^>]+href="\K[^"]+' | head -1) || true
+
+	if [ -z "$final_href" ]; then
+		epr "Could not extract final download link from APKMirror"
+		return 1
+	fi
+	final_href=$(echo "$final_href" | sed 's/&amp;/\&/g')
+
+	pr "Downloading APK from: $base_url$final_href"
+	local cookie_header=()
+	[ -n "${FS_COOKIES:-}" ] && cookie_header=(-H "Cookie: $FS_COOKIES")
+	if [ "$is_bundle" = true ]; then
+		curl -L --fail -s -S \
+			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "Referer: $base_url$dl_btn_href" \
+			"${cookie_header[@]}" \
+			--connect-timeout 30 --max-time 300 \
+			"$base_url$final_href" -o "${output}.apkm" || return 1
+		merge_splits "${output}.apkm" "${output}"
+	else
+		curl -L --fail -s -S \
+			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "Referer: $base_url$dl_btn_href" \
+			"${cookie_header[@]}" \
+			--connect-timeout 30 --max-time 300 \
+			"$base_url$final_href" -o "${output}" || return 1
+	fi
+}
+
+# -------------------- apkpure --------------------
+get_apkpure_resp() {
+	local url=$1
+	pr "Fetching APKPure page: $url"
+	local html=""
+	_fs_get "$url" || return 1
+	__APKPURE_RESP__="$html"
+	# Store the package name extracted from the URL path (last component before /downloading/)
+	# APKPure URLs: https://apkpure.com/<app-name>/<pkg>/downloading/
+	__APKPURE_PKG__=$(echo "$url" | grep -oP '[a-z][a-z0-9]*(\.[a-z][a-z0-9]*){1,}' | tail -1)
+	__APKPURE_BASE_URL__="${url%/downloading/*}"
+	__APKPURE_BASE_URL__="${__APKPURE_BASE_URL__%/versions}"
+}
+
+get_apkpure_vers() {
+	# APKPure versions page lists version strings in <span class="ver-item-n"> or similar
+	local html=""
+	_fs_get "${__APKPURE_BASE_URL__}/versions" || {
+		# fallback: parse cached resp for latest version
+		echo "$__APKPURE_RESP__" | grep -oP '(?<=<span class="info-sdk">)[^<]+' | head -1
+		return 0
+	}
+	echo "$html" | grep -oP '\d+(\.\d+)+' | sort -Vu
+}
+
+get_apkpure_pkg_name() { echo "$__APKPURE_PKG__"; }
+
+dl_apkpure() {
+	local url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
+	local html=""
+
+	if [ -f "${output}.xapk" ]; then
+		merge_splits "${output}.xapk" "${output}"
+		return 0
+	fi
+
+	# Build versioned download page URL
+	local dl_page_url
+	if [ -n "$version" ]; then
+		dl_page_url="${__APKPURE_BASE_URL__}/downloading/${version}"
+	else
+		dl_page_url="${__APKPURE_BASE_URL__}/downloading"
+	fi
+
+	pr "Fetching APKPure download page: $dl_page_url"
+	_fs_get "$dl_page_url" || return 1
+
+	# Detect actual version if not set
+	if [ -z "$version" ]; then
+		version=$(echo "$html" | grep -oP '(?<=<h2[^>]*>)[^<]*\d+\.\d+[^<]*' | grep -oP '\d+(\.\d+)+' | head -1)
+		pr "Detected APKPure version: $version"
+	fi
+
+	# Extract direct download link
+	local download_url
+	download_url=$(echo "$html" | grep -oP '<a[^>]+id="download_link"[^>]+href="\Khttps://[^"]+' | head -1) || true
+	[ -z "$download_url" ] && \
+		download_url=$(echo "$html" | grep -oP 'id="download_link"[^>]*href="\Khttps://[^"]+' | head -1) || true
+
+	if [ -z "$download_url" ]; then
+		epr "Could not find download link on APKPure"
+		return 1
+	fi
+
+	pr "Downloading from APKPure: $download_url"
+	local cookie_header=()
+	[ -n "${FS_COOKIES:-}" ] && cookie_header=(-H "Cookie: $FS_COOKIES")
+
+	# Detect bundle vs plain APK from the URL extension
+	local is_bundle=false
+	echo "$download_url" | grep -qi '\.xapk' && is_bundle=true
+
+	if [ "$is_bundle" = true ]; then
+		curl -L --fail -s -S \
+			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "Referer: $dl_page_url" \
+			"${cookie_header[@]}" \
+			--connect-timeout 30 --max-time 300 \
+			"$download_url" -o "${output}.xapk" || return 1
+		merge_splits "${output}.xapk" "${output}"
+	else
+		curl -L --fail -s -S \
+			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "Referer: $dl_page_url" \
+			"${cookie_header[@]}" \
+			--connect-timeout 30 --max-time 300 \
+			"$download_url" -o "${output}" || return 1
+	fi
 }
 
 # -------------------- uptodown --------------------
