@@ -409,9 +409,6 @@ merge_splits() {
 	return 0
 }
 
-# -------------------- FlareSolverr helper --------------------
-# Fetches a URL via FlareSolverr to bypass Cloudflare bot protection.
-# Sets $html, $FS_COOKIES, and $user_agent on success.
 _fs_get() {
 	local url=$1
 	local max_retries=5 attempt
@@ -433,34 +430,21 @@ _fs_get() {
 		sleep 10
 	done
 	epr "FlareSolverr failed after $max_retries attempts: $url — falling back to plain request"
-	# Graceful fallback: attempt a plain curl request
 	html=$(req "$url" -) || return 1
 	FS_COOKIES=""
-	user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
+	user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0"
 }
 
 # -------------------- apkmirror --------------------
-# __APKMIRROR_EXAMPLE_URL__ optionally holds a known release page URL so we can
-# derive the correct slug by substituting the version, e.g.:
-#   https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/1-1-1-1-warp-safer-internet-6-38-7-release/
-# Set via apkmirror-example-url in config.toml.
 get_apkmirror_resp() {
-	local url=$1
-	pr "Fetching APKMirror page: $url"
-	local html=""
-	_fs_get "$url" || return 1
-	__APKMIRROR_RESP__="$html"
-	__APKMIRROR_CAT__="${url##*/}"
-	# strip trailing query params from category
-	__APKMIRROR_CAT__="${__APKMIRROR_CAT__%%\?*}"
-	# Pick up the example URL from args if provided (set by build_rv from config)
+	__APKMIRROR_RESP__=$(req "${1}" -) || return 1
+	__APKMIRROR_CAT__="${1##*/}"
 	__APKMIRROR_EXAMPLE_URL__="${args[apkmirror_example_url]:-}"
 }
 
 get_apkmirror_vers() {
-	local vers apkm_resp html=""
-	_fs_get "https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}" || return 1
-	apkm_resp="$html"
+	local vers apkm_resp
+	apkm_resp=$(req "https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}" -)
 	vers=$(sed -n 's;.*Version:</span><span class="infoSlide-value">\(.*\) </span>.*;\1;p' <<<"$apkm_resp" | awk '{$1=$1}1')
 	if [ "$__AAV__" = false ]; then
 		local IFS=$'\n'
@@ -477,8 +461,43 @@ get_apkmirror_vers() {
 
 get_apkmirror_pkg_name() { sed -n 's;.*id=\(.*\)" class="accent_color.*;\1;p' <<<"$__APKMIRROR_RESP__"; }
 
+apkmirror_search() {
+	local resp="$1" dpi="$2" arch="$3" apk_bundle="$4"
+	local dlurl="" node app_table emptyCheck
+
+	local apparch=('universal' 'noarch' 'arm64-v8a + armeabi-v7a')
+	if [ "$arch" != all ]; then
+		apparch+=("$arch")
+	fi
+
+	local appdpi=("nodpi" "anydpi")
+	if [ "$dpi" ]; then
+		appdpi+=($dpi)
+	fi
+
+	for ((n = 1; n < 40; n++)); do
+		node=$($HTMLQ "div.table-row.headerFont:nth-last-child($n)" -r "span:nth-child(n+3)" <<<"$resp")
+		if [ -z "$node" ]; then break; fi
+		emptyCheck=$($HTMLQ -t -w "div.table-cell:nth-child(1) > a:nth-child(1)" <<<"$node" | xargs)
+		if [ -z "$emptyCheck" ]; then break; fi
+		app_table=$($HTMLQ --text --ignore-whitespace <<<"$node")
+		if [ "$(sed -n 3p <<<"$app_table")" != "$apk_bundle" ]; then continue; fi
+		dlurl=$($HTMLQ --base https://www.apkmirror.com --attribute href "div:nth-child(1) > a:nth-child(1)" <<<"$node")
+		if isoneof "$(sed -n 6p <<<"$app_table")" "${appdpi[@]}" &&
+			isoneof "$(sed -n 4p <<<"$app_table")" "${apparch[@]}"; then
+			echo "$dlurl"
+			return 0
+		fi
+	done
+	if [ "$n" -eq 2 ] && [ "$dlurl" ]; then
+		echo "$dlurl"
+		return 0
+	fi
+	return 1
+}
+
 dl_apkmirror() {
-	local url=$1 version=$2 output=$3 arch=$4 dpi=${5:-} is_bundle=false
+	local url=$1 version=${2// /-} output=$3 arch=$4 dpi=$5 is_bundle=false
 	local base_url="https://www.apkmirror.com"
 	local html=""
 
@@ -489,187 +508,120 @@ dl_apkmirror() {
 
 	if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
 
-	# Derive the release page URL.
-	# Strategy 1 (preferred): use apkmirror-example-url from config to get the correct
-	# slug, then substitute the version digits — same approach as FiorenMas.
-	# Strategy 2 (fallback): search the listing page for a link containing the version.
-	local version_href=""
-	local list_url="https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}"
+	local resp release_url=""
 
 	if [ -n "${__APKMIRROR_EXAMPLE_URL__:-}" ]; then
-		# Strip base URL to get just the path, e.g. /apk/cloudflare/.../1-1-1-1-warp-safer-internet-6-38-7-release/
 		local example_path="${__APKMIRROR_EXAMPLE_URL__#$base_url}"
-		# Extract the version slug from the example path (last digit sequence like 6-38-7)
-		local slug_ver
+		local slug_ver target_ver
 		slug_ver=$(echo "$example_path" | grep -oP '\d+(-\d+)+' | tail -1)
-		# Build the target version slug from the requested version
-		local target_ver
 		target_ver=$(echo "$version" | tr '.' '-' | grep -oP '\d+(-\d+)+')
 		if [ -n "$slug_ver" ] && [ -n "$target_ver" ]; then
-			version_href="${example_path/$slug_ver/$target_ver}"
+			release_url="${base_url}${example_path/$slug_ver/$target_ver}"
+			pr "Fetching APKMirror release page: $release_url"
+			_fs_get "$release_url" || true
+			resp="$html"
+			if [[ "$resp" == *"Page Not Found"* ]] || [[ "$resp" == *"404 Whoops"* ]] || [ -z "$resp" ]; then
+				wpr "Derived release page not found; trying slug fallback…"
+				release_url=""
+			fi
 		fi
 	fi
 
-	if [ -n "$version_href" ]; then
-		pr "Fetching APKMirror release page (via example URL): $base_url$version_href"
-		_fs_get "$base_url$version_href" || return 1
-		# If this specific version page 404s, fall through to listing search below
-		if [[ "$html" == *"Page Not Found"* ]] || [[ "$html" == *"404 Whoops"* ]]; then
-			wpr "Derived release page not found ($base_url$version_href); falling back to listing search…"
-			version_href=""
+	if [ -z "$release_url" ]; then
+		local apkmname
+		apkmname=$($HTMLQ "h1.marginZero" --text <<<"$__APKMIRROR_RESP__")
+		apkmname="${apkmname,,}" apkmname="${apkmname// /-}" apkmname="${apkmname//[^a-z0-9-]/}"
+		release_url="${url%/}/${apkmname}-${version//./-}-release/"
+		pr "Fetching APKMirror release page: $release_url"
+		_fs_get "$release_url" || true
+		resp="$html"
+		if [[ "$resp" == *"Page Not Found"* ]] || [[ "$resp" == *"404 Whoops"* ]] || [ -z "$resp" ]; then
+			wpr "Slug-based release page not found; searching listing pages…"
+			release_url=""
 		fi
 	fi
 
-	if [ -z "$version_href" ]; then
-		wpr "Searching APKMirror listing pages for version $version…"
-		for page_num in $(seq 1 10); do
+	if [ -z "$release_url" ]; then
+		local list_url="https://www.apkmirror.com/uploads/?appcategory=${__APKMIRROR_CAT__}"
+		local version_href=""
+		for page_num in $(seq 1 5); do
 			local page_url="$list_url"
 			[[ $page_num -gt 1 ]] && page_url="${list_url%%\?*}/page/$page_num/?${list_url#*\?}"
 			_fs_get "$page_url" || return 1
-			# Match any release link whose text or href contains the version digits
-			version_href=$(echo "$html" | \
-				grep -oP '(?<=href=")[^"]+(?=[^>]*>[^<]*'"${version//./-}"')' | \
-				grep -i 'release' | head -1) || true
-			[ -z "$version_href" ] && \
-				version_href=$(echo "$html" | \
-					grep -oP 'href="\K/apk/[^"]*'"${version//./-}"'[^"]*release[^"]*' | head -1) || true
+			version_href=$(echo "$html" | grep -oP 'href="\K/apk/[^"]*'"${version//./-}"'[^"]*release[^"]*' | head -1) || true
 			if [ -n "$version_href" ]; then
-				pr "Found release page on listing page $page_num: $base_url$version_href"
-				_fs_get "$base_url$version_href" || return 1
+				release_url="$base_url$version_href"
+				pr "Found release page on listing page $page_num: $release_url"
+				_fs_get "$release_url" || return 1
+				resp="$html"
 				break
 			fi
 		done
-		if [ -z "$version_href" ]; then
+		if [ -z "$release_url" ]; then
 			epr "Could not find version $version on APKMirror"
 			return 1
 		fi
 	fi
 
-	# Select variant: prefer APK, fall back to BUNDLE; filter by arch and dpi
-	local type_badge="APK"
-	local rows vtable_html variant_href="" matched_type=""
-	vtable_html=$(echo "$html" | grep -oP '<div class="variants-table">.*?</div>\s*</div>\s*</div>' | head -1) || true
-	[ -z "$vtable_html" ] && vtable_html="$html"
-	rows=$(echo "$vtable_html" | tr '\n' ' ' | sed 's/<div class="table-row/\n<div class="table-row/g')
-
-	local dpi_fallback=("nodpi" "anydpi" "120-640dpi" "120-480dpi" "480-640dpi" "480dpi")
-	local type_attempts=("APK" "BUNDLE")
-
-	for try_type in "${type_attempts[@]}"; do
-		local filtered_rows
-		filtered_rows=$(echo "$rows" | grep -iP "apkm-badge[^>]*>\s*$try_type\s*<") || true
-		[ -n "$arch" ] && filtered_rows=$(echo "$filtered_rows" | grep -iv "x86\|noarch\|universal" | grep -i "$arch") || true
-
-		if [ -n "$dpi" ]; then
-			local dpi_filtered
-			dpi_filtered=$(echo "$filtered_rows" | grep -i "$dpi") || true
-			if [ -z "$dpi_filtered" ]; then
-				for fb_dpi in "${dpi_fallback[@]}"; do
-					dpi_filtered=$(echo "$filtered_rows" | grep -i "$fb_dpi") || true
-					[ -n "$dpi_filtered" ] && { wpr "DPI fallback: $dpi -> $fb_dpi"; break; }
-				done
+	local node dlurl=""
+	node=$($HTMLQ "div.table-row.headerFont:nth-last-child(1)" -r "span:nth-child(n+3)" <<<"$resp")
+	if [ "$node" ]; then
+		for type in APK BUNDLE; do
+			if dlurl=$(apkmirror_search "$resp" "$dpi" "$arch" "$type"); then
+				[ "$type" = "BUNDLE" ] && is_bundle=true || is_bundle=false
+				break
 			fi
-			filtered_rows="$dpi_filtered"
-		fi
-
-		variant_href=$(echo "$filtered_rows" | grep -oP 'class="accent_color[^>]+href="\K[^"]+' | head -1) || true
-		if [ -n "$variant_href" ]; then
-			matched_type="$try_type"
-			[ "$try_type" != "APK" ] && { wpr "APK not found, falling back to BUNDLE"; is_bundle=true; }
-			break
-		fi
-	done
-
-	# Last-resort: grab the first variant link on the page
-	if [ -z "$variant_href" ]; then
-		variant_href=$(echo "$html" | grep -oP 'class="accent_color[^>]+href="\K[^/][^"]*apk[^"]+' | head -1) || true
+		done
+		if [ -z "$dlurl" ]; then return 1; fi
+		_fs_get "$dlurl" || return 1
+		resp="$html"
 	fi
 
-	if [ -z "$variant_href" ]; then
-		epr "Could not find a suitable variant on APKMirror (arch=$arch dpi=$dpi)"
-		return 1
-	fi
+	local btn_url
+	btn_url=$(echo "$resp" | $HTMLQ --base "$base_url" --attribute href "a.btn") || return 1
 
-	variant_href=$(echo "$variant_href" | sed 's/&amp;/\&/g')
-	pr "Fetching variant page: $base_url$variant_href"
-	_fs_get "$base_url$variant_href" || return 1
+	_fs_get "$btn_url" || return 1
+	local final_url
+	final_url=$(echo "$html" | $HTMLQ --base "$base_url" --attribute href "span > a[rel = nofollow]") || return 1
 
-	# Click the download button
-	local all_dl_btns dl_btn_href
-	all_dl_btns=$(echo "$html" | grep -oP '<a[^>]+class="[^"]*downloadButton[^"]*"[^>]+href="\K[^"]+') || true
-	if [ "$is_bundle" = true ]; then
-		dl_btn_href=$(echo "$all_dl_btns" | grep -v 'forcebaseapk' | head -1)
-		[ -z "$dl_btn_href" ] && dl_btn_href=$(echo "$all_dl_btns" | head -1)
-	else
-		dl_btn_href=$(echo "$all_dl_btns" | grep 'forcebaseapk' | head -1)
-		[ -z "$dl_btn_href" ] && dl_btn_href=$(echo "$all_dl_btns" | head -1)
-	fi
-
-	if [ -z "$dl_btn_href" ]; then
-		epr "Could not find download button on APKMirror"
-		return 1
-	fi
-	dl_btn_href=$(echo "$dl_btn_href" | sed 's/&amp;/\&/g')
-
-	pr "Fetching download confirmation page: $base_url$dl_btn_href"
-	_fs_get "$base_url$dl_btn_href" || return 1
-
-	# Extract the final direct download link
-	local final_href
-	final_href=$(echo "$html" | grep -oP 'id="download-link"[^>]+href="\K[^"]+' | head -1) || true
-	[ -z "$final_href" ] && final_href=$(echo "$html" | grep -oP '<a[^>]+id="download-link"[^>]+href="\K[^"]+' | head -1) || true
-
-	if [ -z "$final_href" ]; then
-		epr "Could not extract final download link from APKMirror"
-		return 1
-	fi
-	final_href=$(echo "$final_href" | sed 's/&amp;/\&/g')
-
-	pr "Downloading APK from: $base_url$final_href"
+	pr "Downloading APK: $final_url"
 	local cookie_header=()
 	[ -n "${FS_COOKIES:-}" ] && cookie_header=(-H "Cookie: $FS_COOKIES")
+
 	if [ "$is_bundle" = true ]; then
 		curl -L --fail -s -S \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $base_url$dl_btn_href" \
+			-H "Referer: $btn_url" \
 			"${cookie_header[@]}" \
 			--connect-timeout 30 --max-time 300 \
-			"$base_url$final_href" -o "${output}.apkm" || return 1
+			"$final_url" -o "${output}.apkm" || return 1
 		merge_splits "${output}.apkm" "${output}"
 	else
 		curl -L --fail -s -S \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $base_url$dl_btn_href" \
+			-H "Referer: $btn_url" \
 			"${cookie_header[@]}" \
 			--connect-timeout 30 --max-time 300 \
-			"$base_url$final_href" -o "${output}" || return 1
+			"$final_url" -o "${output}" || return 1
 	fi
 }
 
 # -------------------- apkpure --------------------
 get_apkpure_resp() {
 	local url=$1
-	# Normalize: strip any trailing /downloading[/...] or /versions so users
-	# can supply just https://apkpure.com/<app-slug>/<pkg>/ — /downloading/ is appended by code.
 	url="${url%/downloading*}"
-	url="${url%/versions*}"
 	url="${url%/}"
 	__APKPURE_BASE_URL__="$url"
-	__APKPURE_PKG__=$(echo "$url" | grep -oP '[a-z][a-z0-9]*(\.[a-z][a-z0-9]*){1,}' | tail -1)
-	pr "Fetching APKPure page: ${url}/downloading/"
+	__APKPURE_PKG__=$(echo "$url" | grep -oP '[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z][a-zA-Z0-9]*){1,}' | tail -1)
 	local html=""
 	_fs_get "${url}/downloading/" || return 1
 	__APKPURE_RESP__="$html"
 }
 
 get_apkpure_vers() {
-	# The latest version is on the /downloading/ page we already fetched in get_apkpure_resp.
-	# Parse it from the <h2> tag (same as FiorenMas uses pup 'h2 text{}').
-	# We scope to <h2>...</h2> to avoid matching internal IDs like "53870.98500".
 	local ver
-	ver=$(echo "$__APKPURE_RESP__" | grep -oP '(?<=<h2[^>]*>)[^<]*' | grep -oP '\d+\.\d+[.\d]*' | head -1) || true
-	# Fallback: look for version in the page title or meta
-	[ -z "$ver" ] && ver=$(echo "$__APKPURE_RESP__" | grep -oP '(?<=<title>[^<]*APKPure[^<]* )\d+\.\d+[.\d]*' | head -1) || true
+	ver=$(echo "$__APKPURE_RESP__" | grep -oP '(?<=<h2[^>]{0,100}>)[^<]+' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
+	[ -z "$ver" ] && ver=$(echo "$__APKPURE_RESP__" | grep -oP '"softwareVersion"\s*:\s*"\K[^"]+' | head -1) || true
 	echo "$ver"
 }
 
@@ -684,7 +636,6 @@ dl_apkpure() {
 		return 0
 	fi
 
-	# Build versioned download page URL
 	local dl_page_url
 	if [ -n "$version" ]; then
 		dl_page_url="${__APKPURE_BASE_URL__}/downloading/${version}"
@@ -692,18 +643,18 @@ dl_apkpure() {
 		dl_page_url="${__APKPURE_BASE_URL__}/downloading"
 	fi
 
-	pr "Fetching APKPure download page: $dl_page_url"
 	_fs_get "$dl_page_url" || return 1
 
-	# Detect actual version if not set — scope to <h2> to avoid internal IDs
 	if [ -z "$version" ]; then
-		version=$(echo "$html" | grep -oP '(?<=<h2[^>]*>)[^<]*' | grep -oP '\d+\.\d+[.\d]*' | head -1) || true
+		version=$(echo "$html" | grep -oP '(?<=<h2[^>]{0,100}>)[^<]+' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
+		[ -z "$version" ] && version=$(echo "$html" | grep -oP '"softwareVersion"\s*:\s*"\K[^"]+' | head -1) || true
 		pr "Detected APKPure version: $version"
 	fi
 
-	# Extract direct download link
 	local download_url
-	download_url=$(echo "$html" | grep -oP '<a[^>]+id="download_link"[^>]+href="\Khttps://[^"]+' | head -1) || true
+	download_url=$($HTMLQ "a#download_link" --attribute href <<<"$html" 2>/dev/null | head -1) || true
+	[ -z "$download_url" ] && \
+		download_url=$(echo "$html" | grep -oP '<a[^>]+id="download_link"[^>]+href="\Khttps://[^"]+' | head -1) || true
 	[ -z "$download_url" ] && \
 		download_url=$(echo "$html" | grep -oP 'id="download_link"[^>]*href="\Khttps://[^"]+' | head -1) || true
 
@@ -716,7 +667,6 @@ dl_apkpure() {
 	local cookie_header=()
 	[ -n "${FS_COOKIES:-}" ] && cookie_header=(-H "Cookie: $FS_COOKIES")
 
-	# Detect bundle vs plain APK from the URL extension
 	local is_bundle=false
 	echo "$download_url" | grep -qi '\.xapk' && is_bundle=true
 
