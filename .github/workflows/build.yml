@@ -20,6 +20,7 @@ on:
           - ".github/build/config.photos.toml"
           - ".github/build/config.revanced.toml"
           - ".github/build/config.piko.toml"
+          - ".github/build/config.test.toml"
 
 concurrency:
   group: build
