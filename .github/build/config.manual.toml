@@ -1,7 +1,7 @@
 [1-1-1-1]
 # package-name = com.cloudflare.onedotonedotonedotone
 apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
-arch = "arm64-v8a"
+# arch = "arm64-v8a"
 # dpi = "nodpi anydpi"
 enabled = true
 patches-source = "rushiranpise/morphe-patches"
@@ -313,7 +313,7 @@ rv-brand = "Morphe"
 # archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
 # include-stock = "split"
 # package-name = com.twitter.android
-arch = "arm64-v8a"
+# arch = "arm64-v8a"
 # dpi = "nodpi"
 enabled = true
 version = "11.95.1-release-ripped.0"
