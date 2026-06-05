@@ -238,7 +238,6 @@ build-mode = "apk"
 dpi = "nodpi anydpi"
 enabled = true
 parallel-jobs = 1
-
 patches-source = "MorpheApp/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
