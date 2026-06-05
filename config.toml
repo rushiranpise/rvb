@@ -47,10 +47,10 @@ rv-brand = "Morphe"
 version = "auto"
 
 [casetracker]
+# apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.casetracker"
 # package-name = com.saldous.casetracker
 # uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.saldous.casetracker"
-# apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.casetracker"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -73,10 +73,10 @@ rv-brand = "Morphe"
 version = "auto"
 
 [crimeradar]
+# apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.crimeradar"
 # package-name = com.newsbreak.crimeradar
 # uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.newsbreak.crimeradar"
-# apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.crimeradar"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -163,6 +163,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Google-Photos]
+
 
 # package-name = com.google.android.apps.photos
 # uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
@@ -304,10 +305,10 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Strava]
+# apkpure-dl = "https://apkpure.com/strava-run-hike-android-exercise-laugh/com.strava"
 # package-name = com.strava
 # uptodown-dlurl = "https://strava.en.uptodown.com/android"
 apkcombo-dl = "https://apkcombo.com/search/com.strava/"
-# apkpure-dl = "https://apkpure.com/strava-run-hike-android-exercise-laugh/com.strava"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -317,11 +318,11 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Telegram]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version/"
+# apkpure-dlurl = "https://apkpure.com/telegram-messenger/org.telegram.messenger.web"
 # package-name = org.telegram.messenger.web
 # uptodown-dlurl = "https://telegram.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/org.telegram.messenger.web/"
-# apkmirror-dlurl = "https://www.apkmirror.com/apk/telegram-fz-llc/telegram-web-version/"
-# apkpure-dlurl = "https://apkpure.com/telegram-messenger/org.telegram.messenger.web"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -344,6 +345,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Transit]
+
 
 # package-name = com.thetransitapp.droid
 # uptodown-dlurl = "https://transit.en.uptodown.com/android"
