@@ -83,7 +83,7 @@ dpi = "nodpi anydpi"
 enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
-version = "auto"
+version = "26.21.1"
 
 [Cube-ACR]
 # package-name = com.catalinagroup.callrecorder
