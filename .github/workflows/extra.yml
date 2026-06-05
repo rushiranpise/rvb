@@ -36,9 +36,9 @@ jobs:
           cp config.toml .github/build/config.manual.toml
           cp config.toml .github/build/config.stable.toml
 
-      - name: Generate README
-        run: |
-          python obtainium.py --input config.toml --output README.md --ignore-first 1
+      # - name: Generate README
+      #   run: |
+      #     python obtainium.py --input config.toml --output README.md --ignore-first 1
 
       - name: Debug git status
         run: |
