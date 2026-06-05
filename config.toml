@@ -11,8 +11,6 @@ patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://1-1-1-1.en.uptodown.com/android"
 
-version = "latest"
-
 [Adguard]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/adguard-software-limited/adguard"
 # package-name = com.adguard
@@ -52,8 +50,6 @@ patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
 
-version = "latest"
-
 [citizen]
 # package-name = sp0n.citizen
 apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
@@ -72,8 +68,6 @@ enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
-
-version = "latest"
 
 [Cube-ACR]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
@@ -120,7 +114,6 @@ uptodown-dlurl = "https://eyecon-phone-dialer-and-cont-eyecon.en.uptodown.com/an
 [Facebook]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
 # github-dlurl = "hhttps://github.com/nvbangg/builder-for-morphe/releases/tag/com.facebook.katana"
-
 # include-stock = "split"
 # package-name = com.facebook.katana
 arch = "arm64-v8a"
@@ -158,7 +151,6 @@ uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 [Instagram]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
 # github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/instagram"
-
 # include-stock = "split"
 # package-name = com.instagram.android
 arch = "arm64-v8a"
@@ -331,7 +323,6 @@ enabled = true
 github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/x-twitter"
 patches-source = "crimera/piko"
 rv-brand = "Morphe"
-
 uptodown-dlurl = "https://twitter.en.uptodown.com/android/"
 
 [Unimote]
