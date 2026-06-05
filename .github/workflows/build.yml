@@ -38,8 +38,8 @@ jobs:
           distribution: "temurin"
           java-version: "21"
 
-      - name: Setup Cloudflare WARP
-        run: bash "/home/runner/work/rvb/rvb/.github/cf_warp.sh"
+      # - name: Setup Cloudflare WARP
+      #   run: bash "/home/runner/work/rvb/rvb/.github/cf_warp.sh"
 
       - name: Start FlareSolverr
         run: |
