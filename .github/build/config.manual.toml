@@ -41,8 +41,8 @@ rv-brand = "Morphe"
 
 [casetracker]
 # package-name = com.saldous.casetracker
-arch = "auto"
-dpi = "nodpi anydpi"
+arch = "arm64-v8a"
+dpi = "nodpi"
 enabled = false
 patches-source = "rushiranpise/morphe-patches"
 apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.usciscasetracker/downloading/"
@@ -52,9 +52,9 @@ rv-brand = "Morphe"
 [citizen]
 # package-name = sp0n.citizen
 apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
-arch = "auto"
+arch = "arm64-v8a"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 # uptodown-dlurl = "https://citizen.en.uptodown.com/android"
