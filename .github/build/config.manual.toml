@@ -181,7 +181,7 @@ rv-brand = "Morphe"
 
 [Instagram]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
-# github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/instagram"
+github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/instagram"
 # package-name = com.instagram.android
 archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android/"
 arch = "arm64-v8a"
@@ -207,13 +207,13 @@ rv-brand = "Morphe"
 
 [MacroDroid]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2"
-# include-stock = "split"
 # package-name = com.arlosoft.macrodroid
 arch = "arm64-v8a"
 dpi = "nodpi anydpi"
 enabled = true
 build-mode = "apk"
-version = "auto"patches-source = "Paresh-Maheshwari/paresh-patches"
+version = "auto"
+patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 # uptodown-dlurl = "https://macrodroid.en.uptodown.com/android"
@@ -304,7 +304,6 @@ rv-brand = "Morphe"
 
 [Strava]
 # package-name = com.strava
-# remove-rv-integrations-checks = true
 apkpure-dl = "https://apkpure.com/strava-run-hike-android-exercise-laugh/com.strava"
 apkcombo-dl = "https://apkcombo.com/strava/com.strava/"
 arch = "arm64-v8a"
@@ -318,7 +317,6 @@ rv-brand = "Morphe"
 
 [Telegram]
 # package-name = org.telegram.messenger.web
-# remove-rv-integrations-checks = true
 arch = "arm64-v8a"
 dpi = "nodpi anydpi"
 enabled = true
@@ -361,7 +359,6 @@ apkpure-dl = "https://apkpure.com/transit-subway-bus-times/com.thetransitapp.dro
 # uptodown-dlurl = "https://transit.en.uptodown.com/android"
 
 [Truecaller]
-# include-stock = "split"
 # package-name = com.truecaller
 archive-dlurl = "https://archive.org/download/geologically/apks/com.truecaller/"
 arch = "arm64-v8a"
@@ -374,9 +371,6 @@ patches-source-host = "gitlab"
 rv-brand = "Morphe"
 
 [Twitter]
-# arch = "arm64-v8a"
-# dpi = "nodpi anydpi"
-# include-stock = "split"
 # package-name = com.twitter.android
 version = "11.81.0-release.0"
 arch = "arm64-v8a"
@@ -403,7 +397,6 @@ rv-brand = "Morphe"
 # uptodown-dlurl = "https://unimote.en.uptodown.com/android"
 
 [WPS-Office]
-# include-stock = "split"
 # package-name = cn.wps.moffice_eng
 archive-dlurl = "https://archive.org/download/geologically/apks/cn.wps.moffice_eng/"
 arch = "arm64-v8a"
@@ -416,7 +409,6 @@ rv-brand = "Morphe"
 
 [Xodo]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/apryse-software-inc/xodo-pdf-reader-editor"
-# include-stock = "split"
 # package-name = com.xodo.pdf.reader
 arch = "arm64-v8a"
 dpi = "nodpi anydpi"
