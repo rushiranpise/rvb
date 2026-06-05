@@ -580,32 +580,45 @@ dl_apkmirror() {
 		resp="$html"
 	fi
 
-	local btn_url
-	btn_url=$(echo "$resp" | $HTMLQ --base "$base_url" --attribute href "a.btn") || return 1
+	local all_dl_btns btn_url
+	all_dl_btns=$(echo "$resp" | $HTMLQ "a.downloadButton" --attribute href)
+	if [ "$is_bundle" = true ]; then
+		btn_url=$(echo "$all_dl_btns" | grep -v 'forcebaseapk' | head -1)
+		[ -z "$btn_url" ] && btn_url=$(echo "$all_dl_btns" | head -1)
+	else
+		btn_url=$(echo "$all_dl_btns" | grep 'forcebaseapk' | head -1)
+		[ -z "$btn_url" ] && btn_url=$(echo "$all_dl_btns" | head -1)
+	fi
+	if [ -z "$btn_url" ]; then epr "Could not find download button on APKMirror"; return 1; fi
+	btn_url=$(echo "$btn_url" | sed 's/&amp;/\&/g')
 
-	_fs_get "$btn_url" || return 1
+	_fs_get "$base_url$btn_url" || return 1
 	local final_url
-	final_url=$(echo "$html" | $HTMLQ --base "$base_url" --attribute href "span > a[rel = nofollow]") || return 1
+	final_url=$($HTMLQ "a#download-link" --attribute href <<<"$html" 2>/dev/null | head -1) || true
+	[ -z "$final_url" ] && final_url=$(echo "$html" | grep -oP 'id="download-link"[^>]*href="\K[^"]+' | head -1) || true
+	if [ -z "$final_url" ]; then epr "Could not find final download link on APKMirror"; return 1; fi
+	final_url=$(echo "$final_url" | sed 's/&amp;/\&/g')
+	[[ "$final_url" != http* ]] && final_url="${base_url}${final_url}"
 
 	pr "Downloading APK: $final_url"
-	local cookie_header=()
-	[ -n "${FS_COOKIES:-}" ] && cookie_header=(-H "Cookie: $FS_COOKIES")
+	local cookie_args=()
+	[ -n "${FS_COOKIES:-}" ] && cookie_args=(--header "Cookie: $FS_COOKIES")
 
 	if [ "$is_bundle" = true ]; then
-		curl -L --fail -s -S \
-			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $btn_url" \
-			"${cookie_header[@]}" \
-			--connect-timeout 30 --max-time 300 \
-			"$final_url" -o "${output}.apkm" || return 1
+		wget -nv -O "${output}.apkm" \
+			--header="User-Agent: ${user_agent:-Mozilla/5.0}" \
+			--referer="$btn_url" \
+			"${cookie_args[@]}" \
+			--timeout=300 \
+			"$final_url" || return 1
 		merge_splits "${output}.apkm" "${output}"
 	else
-		curl -L --fail -s -S \
-			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-			-H "Referer: $btn_url" \
-			"${cookie_header[@]}" \
-			--connect-timeout 30 --max-time 300 \
-			"$final_url" -o "${output}" || return 1
+		wget -nv -O "${output}" \
+			--header="User-Agent: ${user_agent:-Mozilla/5.0}" \
+			--referer="$btn_url" \
+			"${cookie_args[@]}" \
+			--timeout=300 \
+			"$final_url" || return 1
 	fi
 }
 
@@ -688,6 +701,25 @@ dl_apkpure() {
 			"${cookie_header[@]}" \
 			--connect-timeout 30 --max-time 300 \
 			"$download_url" -o "${output}" || return 1
+	fi
+}
+
+_apkpure_install_xapk() {
+	local xapk=$1 output=$2
+	if unzip -l "$xapk" 2>/dev/null | grep -q '\.apk$'; then
+		if unzip -l "$xapk" 2>/dev/null | grep -q 'base\.apk'; then
+			pr "Extracting base.apk from XAPK"
+			unzip -p "$xapk" base.apk > "$output" || return 1
+		else
+			pr "Merging split APKs from XAPK"
+			merge_splits "$xapk" "$output"
+		fi
+	elif unzip -l "$xapk" 2>/dev/null | grep -q 'AndroidManifest\.xml'; then
+		pr "XAPK is standalone APK, renaming"
+		cp "$xapk" "$output"
+	else
+		pr "Unknown XAPK structure, attempting merge"
+		merge_splits "$xapk" "$output"
 	fi
 }
 
