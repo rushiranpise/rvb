@@ -758,14 +758,15 @@ dl_apkcombo() {
 		[ -n "$base_app_url" ] && app_page_url="${base_app_url%%/phone*}/phone-${version}-apk"
 	fi
 	[ -z "$app_page_url" ] && { epr "Could not find APKCombo app page for ${__APKCOMBO_PKG__}"; return 1; }
+	app_page_url="${app_page_url/\/download\/apk\//\/download\/}"
 	pr "APKCombo app page: $app_page_url"
 
 	_fs_get "$app_page_url" || return 1
 	page="$html"
-	dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2[^"]+\.apk[^"]*' | head -1) || true
-	[ -n "$dl_url" ] && [[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
-	if [ -z "$dl_url" ]; then epr "Could not find APK link on APKCombo"; return 1; fi
+	dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2\?[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
+	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
 
 	local checkin
 	checkin=$(req "https://apkcombo.com/checkin" -) || true
@@ -776,8 +777,12 @@ dl_apkcombo() {
 	curl -L --fail -s -S --connect-timeout 30 --max-time 300 \
 		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$final_url" -o "$output" || return 1
 	if ! unzip -t "$output" >/dev/null 2>&1; then
-		epr "Downloaded file from APKCombo is not a valid APK"
+		epr "Downloaded file from APKCombo is not a valid zip"
 		return 1
+	fi
+	if echo "$final_url" | grep -qi 'xapk\|\.apks'; then
+		_apkpure_install_xapk "$output" "${output}.extracted" || return 1
+		mv "${output}.extracted" "$output"
 	fi
 }
 
