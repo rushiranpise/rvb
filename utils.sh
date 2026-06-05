@@ -763,7 +763,9 @@ dl_apkcombo() {
 
 	_fs_get "$app_page_url" || return 1
 	page="$html"
+	wpr "APKCombo dl page hrefs: $(echo "$page" | grep -oiP 'href="[^"]{0,150}"' | grep -i 'r2\|apk\|download' | head -10 | tr '\n' '|')"
 	dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2\?[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP 'href="/r2[^"]+' | sed 's/href="//' | head -1) || true
 	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+' | head -1) || true
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
