@@ -654,7 +654,7 @@ dl_apkpure() {
 	local html=""
 
 	if [ -f "${output}.xapk" ]; then
-		_apkpure_install_xapk "${output}.xapk" "${output}"
+		_apkpure_install_xapk "${output}.xapk" "${output}" || return 1
 		return 0
 	fi
 
@@ -693,13 +693,13 @@ dl_apkpure() {
 	echo "$download_url" | grep -qi '\.xapk' && is_bundle=true
 
 	if [ "$is_bundle" = true ]; then
-		curl -L --fail -s -S \
+		curl -L -s -S \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
 			-H "Referer: $dl_page_url" \
 			"${cookie_header[@]}" \
 			--connect-timeout 30 --max-time 300 \
 			"$download_url" -o "${output}.xapk" || return 1
-		_apkpure_install_xapk "${output}.xapk" "${output}"
+		_apkpure_install_xapk "${output}.xapk" "${output}" || return 1
 	else
 		curl -L --fail -s -S \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
