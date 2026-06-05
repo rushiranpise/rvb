@@ -748,23 +748,21 @@ get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
 	local page checkin dl_url final_url html=""
-	if [ -n "$version" ]; then
-		_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" || return 1
+	local ver_slug="${version//./-}"
+	for try_url in 		"https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" 		"https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${ver_slug}-apk" 		"https://apkcombo.com/-/${__APKCOMBO_PKG__}/download/phone-${version}-apk" 		"https://apkcombo.com/search/${__APKCOMBO_PKG__}/download"; do
+		_fs_get "$try_url" || continue
 		page="$html"
-	else
-		page="$__APKCOMBO_RESP__"
-	fi
-	dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1) || true
-	if [ -z "$dl_url" ]; then
-		dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2[^"]+\.apk[^"]*' | head -1) || true
-		[ -n "$dl_url" ] && dl_url="https://apkcombo.com${dl_url}"
-	fi
+		dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+\.apk[^"]*' | head -1) || true
+		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2[^"]+\.apk[^"]*' | head -1) || true
+		[ -n "$dl_url" ] && [[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
+		[ -n "$dl_url" ] && break
+	done
 	if [ -z "$dl_url" ]; then epr "Could not find APK link on APKCombo"; return 1; fi
-	checkin=$(req "https://apkcombo.com/checkin" -) || return 1
-	dl_url="${dl_url}&${checkin}"
+	checkin=$(req "https://apkcombo.com/checkin" -) || true
+	[ -n "$checkin" ] && dl_url="${dl_url}&${checkin}"
 	pr "Downloading from APKCombo: $dl_url"
-	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 5 "$dl_url") || return 1
-	curl -L --fail -s -S --connect-timeout 30 --max-time 300 "$final_url" -o "$output" || return 1
+	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$dl_url") || return 1
+	curl -L --fail -s -S --connect-timeout 30 --max-time 300 		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$final_url" -o "$output" || return 1
 }
 
 # -------------------- uptodown --------------------
