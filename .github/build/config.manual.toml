@@ -43,7 +43,7 @@ rv-brand = "Morphe"
 # package-name = com.saldous.casetracker
 arch = "arm64-v8a"
 dpi = "nodpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.usciscasetracker/downloading/"
 rv-brand = "Morphe"
@@ -54,14 +54,14 @@ rv-brand = "Morphe"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
 arch = "arm64-v8a"
 dpi = "nodpi anydpi"
-enabled = true
+enabled = false
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 # uptodown-dlurl = "https://citizen.en.uptodown.com/android"
 
 [crimeradar]
 # package-name = com.newsbreak.crimeradar
-arch = "auto"
+arch = "arm64-v8a"
 dpi = "nodpi anydpi"
 enabled = true
 apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.crimeradar/downloading/"
