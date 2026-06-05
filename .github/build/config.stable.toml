@@ -50,7 +50,7 @@ version = "auto"
 # apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.casetracker"
 # package-name = com.saldous.casetracker
 # uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
-apkcombo-dlurl = "https://apkcombo.com/search/com.saldous.casetracker"
+apkcombo-dlurlurl = "https://apkcombo.com/search/com.saldous.casetracker"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -76,7 +76,7 @@ version = "auto"
 # apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.crimeradar"
 # package-name = com.newsbreak.crimeradar
 # uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
-apkcombo-dlurl = "https://apkcombo.com/search/com.newsbreak.crimeradar"
+apkcombo-dlurlurl = "https://apkcombo.com/search/com.newsbreak.crimeradar"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -163,6 +163,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Google-Photos]
+
 
 
 # package-name = com.google.android.apps.photos
@@ -308,7 +309,7 @@ version = "auto"
 # apkpure-dl = "https://apkpure.com/strava-run-hike-android-exercise-laugh/com.strava"
 # package-name = com.strava
 # uptodown-dlurl = "https://strava.en.uptodown.com/android"
-apkcombo-dl = "https://apkcombo.com/search/com.strava/"
+apkcombo-dlurl = "https://apkcombo.com/search/com.strava/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -322,7 +323,7 @@ version = "auto"
 # apkpure-dlurl = "https://apkpure.com/telegram-messenger/org.telegram.messenger.web"
 # package-name = org.telegram.messenger.web
 # uptodown-dlurl = "https://telegram.en.uptodown.com/android"
-apkcombo-dlurl = "https://apkcombo.com/search/org.telegram.messenger.web/"
+apkcombo-dlurlurl = "https://apkcombo.com/search/org.telegram.messenger.web/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -345,6 +346,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Transit]
+
 
 
 # package-name = com.thetransitapp.droid
