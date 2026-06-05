@@ -29,7 +29,7 @@ jobs:
           ls -la .github/build
 
       - name: Run sort.py
-        run: python sort.py
+        run: python sort.py --input config.toml --output config.toml --ignore-first 1
 
       - name: Copy config.toml to build configs
         run: |
