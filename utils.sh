@@ -954,7 +954,8 @@ write_build_info() {
 	# old: INFO: "Patch Name" succeeded
 	# new: INFO: Applied: Patch Name
 	local applied_json
-	applied_json=$(printf '%s\n' "$PATCH_OUTPUT" | grep -oP '(?<=INFO: ")[^"\n]+(?=" succeeded)|(?<=INFO: Applied: ).*' | jq -R -s -c 'split("\n") | map(select(length > 0))' 2>/dev/null || echo '[]')
+	applied_json=$(printf '%s\n' "$PATCH_OUTPUT" | grep -oP '(?<=INFO: ")[^"\n]+(?=" succeeded)|(?<=INFO: Applied: ).*' | jq -R -s -c 'split("\n") | map(select(length > 0))' 2>/dev/null || true)
+	[[ "$applied_json" != \[* ]] && applied_json='[]'
 	jq --arg key "$key" \
 		--arg ext "$ext" \
 		--arg arch "$arch" \
