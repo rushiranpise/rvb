@@ -1,27 +1,28 @@
+1-1-1-1 (all): 6.38.7  
 Adguard (arm64-v8a): 4.12.81  
 Automate (arm64-v8a): 1.51.1  
-1-1-1-1 (all): 6.38.7  
-Cube-ACR (arm64-v8a): 2.4.281  
-Facebook (arm64-v8a): 490.0.0.63.82  
-Eyecon (arm64-v8a): 4.2026.04.05.1300  
-Duolingo (arm64-v8a): 6.77.5  
 CamScanner (arm64-v8a): 7.15.5.2604080000  
-Instagram (arm64-v8a): 426.0.0.37.68  
+Cube-ACR (arm64-v8a): 2.4.281  
+DocScanner (arm64-v8a): 6.8.18  
+Duolingo (arm64-v8a): 6.77.5  
+Eyecon (arm64-v8a): 4.2026.04.05.1300  
+Facebook (arm64-v8a): 490.0.0.63.82  
 Fing (arm64-v8a): 12.12.0  
 Google-Photos (arm64-v8a): 7.79.0.924379438  
-Mapy (arm64-v8a): 26.5.0  
-MacroDroid (arm64-v8a): 5.62.11  
+Instagram (arm64-v8a): 426.0.0.37.68  
 Komoot (arm64-v8a): 2025.38.2  
+MacroDroid (arm64-v8a): 5.62.11  
+Mapy (arm64-v8a): 26.5.0  
+Music (arm64-v8a): 8.47.56  
+Proton-Mail (arm64-v8a): 4.15.0  
 Speedtest (arm64-v8a): 7.0.3  
 Splitwise (arm64-v8a): 26.5.4  
-Music (arm64-v8a): 8.47.56  
+TikTok (arm64-v8a): 43.6.2  
 Truecaller (arm64-v8a): 26.10.6  
 Unimote (arm64-v8a): 2.4.281  
 WPS-Office (arm64-v8a): 18.24  
 Xodo (arm64-v8a): 10.13.0  
-Proton-Mail (arm64-v8a): 4.15.0  
 YouTube (arm64-v8a): 20.51.39  
-TikTok (arm64-v8a): 43.6.2  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
