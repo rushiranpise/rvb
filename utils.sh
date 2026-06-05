@@ -716,20 +716,21 @@ _apkpure_install_xapk() {
 		epr "Downloaded XAPK is not a valid zip (Cloudflare block?): $xapk"
 		return 1
 	fi
-	if unzip -l "$xapk" 2>/dev/null | grep -q '\.apk$'; then
-		if unzip -l "$xapk" 2>/dev/null | grep -q 'base\.apk'; then
-			pr "Extracting base.apk from XAPK"
-			unzip -p "$xapk" base.apk > "$output" || return 1
-		else
-			pr "Merging split APKs from XAPK"
-			merge_splits "$xapk" "$output"
-		fi
-	elif unzip -l "$xapk" 2>/dev/null | grep -q 'AndroidManifest\.xml'; then
-		pr "XAPK is standalone APK, renaming"
+	gh_dl "$TEMP_DIR/apkeditor.jar" "https://github.com/REAndroid/APKEditor/releases/download/V1.4.9/APKEditor-1.4.9.jar" >/dev/null || return 1
+	if unzip -l "$xapk" 2>/dev/null | grep -q 'AndroidManifest\.xml'; then
 		cp "$xapk" "$output"
 	else
-		epr "Unknown XAPK structure, cannot process: $xapk"
-		return 1
+		pr "Merging XAPK splits"
+		local OP
+		if ! OP=$(java -jar "$TEMP_DIR/apkeditor.jar" m -i "$xapk" -o "${output}-unsigned" 2>&1); then
+			epr "APKEditor m error: $OP"
+			return 1
+		fi
+		if ! OP=$(java -jar "$APKSIGNER" sign --ks ks-p12.keystore --ks-pass pass:123456789 --key-pass pass:123456789 --ks-key-alias jhc 			--out "$output" "${output}-unsigned" 2>&1); then
+			epr "apksigner error: $OP"
+			return 1
+		fi
+		rm "${output}.idsig" "${output}-unsigned" 2>/dev/null || :
 	fi
 }
 
