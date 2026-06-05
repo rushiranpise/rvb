@@ -5,7 +5,7 @@ CWD=$(pwd)
 TEMP_DIR="temp"
 BIN_DIR="bin"
 BUILD_DIR="build"
-DL_SRCS=("direct" "github" "archive" "apkmirror" "apkpure" "uptodown")
+DL_SRCS=("direct" "github" "archive" "apkmirror" "apkpure" "apkcombo" "uptodown")
 BUILD_JSON_FILE="build.json"
 PATCH_OUTPUT=""
 
@@ -729,6 +729,39 @@ _apkpure_install_xapk() {
 		fi
 		rm "${output}.idsig" "${output}-unsigned" 2>/dev/null || :
 	fi
+}
+
+# -------------------- apkcombo --------------------
+get_apkcombo_resp() {
+	local url=$1
+	url="${url%/}"
+	__APKCOMBO_PKG__="${url##*/}"
+	__APKCOMBO_BASE_URL__="$url"
+	__APKCOMBO_RESP__=$(req "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download" -) || return 1
+}
+get_apkcombo_vers() {
+	echo "$__APKCOMBO_RESP__" | grep -oP 'phone-\K[0-9][^-]+-apk' | sed 's/-apk$//' | head -1
+}
+get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
+dl_apkcombo() {
+	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
+	local page checkin dl_url final_url
+	if [ -n "$version" ]; then
+		page=$(req "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" -) || return 1
+	else
+		page="$__APKCOMBO_RESP__"
+	fi
+	dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1) || true
+	if [ -z "$dl_url" ]; then
+		dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2[^"]+\.apk[^"]*' | head -1) || true
+		[ -n "$dl_url" ] && dl_url="https://apkcombo.com${dl_url}"
+	fi
+	if [ -z "$dl_url" ]; then epr "Could not find APK link on APKCombo"; return 1; fi
+	checkin=$(req "https://apkcombo.com/checkin" -) || return 1
+	dl_url="${dl_url}&${checkin}"
+	pr "Downloading from APKCombo: $dl_url"
+	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 5 "$dl_url") || return 1
+	curl -L --fail -s -S --connect-timeout 30 --max-time 300 "$final_url" -o "$output" || return 1
 }
 
 # -------------------- uptodown --------------------
