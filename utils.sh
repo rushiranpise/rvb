@@ -752,8 +752,10 @@ dl_apkcombo() {
 	for try_url in 		"https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" 		"https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${ver_slug}-apk" 		"https://apkcombo.com/-/${__APKCOMBO_PKG__}/download/phone-${version}-apk" 		"https://apkcombo.com/search/${__APKCOMBO_PKG__}/download"; do
 		_fs_get "$try_url" || continue
 		page="$html"
+		wpr "APKCombo DEBUG links: $(echo "$page" | grep -oiP 'href="[^"]{0,200}"' | head -10 | tr '\n' '|')"
 		dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+\.apk[^"]*' | head -1) || true
 		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2[^"]+\.apk[^"]*' | head -1) || true
+		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oiP 'https?://[^"\s]+\.apk[^"\s]*' | head -1) || true
 		[ -n "$dl_url" ] && [[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
 		[ -n "$dl_url" ] && break
 	done
