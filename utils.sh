@@ -758,6 +758,8 @@ dl_apkcombo() {
 	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+\.(apk|xapk|apks)[^"]+' | head -1) || true
 	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2\?u=[^"]+' | head -1) || true
 
+	wpr "APKCombo dl_url=$dl_url"
+	wpr "APKCombo hrefs=$(echo "$page" | grep -oP '(?<=href=")[^"]{5,150}' | grep -i 'r2\|download\|apk' | head -5 | tr '\n' '|')"
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
 
@@ -772,7 +774,7 @@ dl_apkcombo() {
 		epr "Downloaded file from APKCombo is not a valid zip"
 		return 1
 	fi
-	if echo "$final_url$dl_url" | grep -qi 'xapk\|\.apks'; then
+	if echo "$final_url$dl_url" | grep -qi 'xapk\.apks'; then
 		_apkpure_install_xapk "$output" "${output}.extracted" || return 1
 		mv "${output}.extracted" "$output"
 	fi
