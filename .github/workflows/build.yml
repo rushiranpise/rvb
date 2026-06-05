@@ -1,7 +1,6 @@
 name: Build
 
 on:
-  push:
   workflow_call:
     inputs:
       config_file:
@@ -21,8 +20,6 @@ on:
           - ".github/build/config.photos.toml"
           - ".github/build/config.revanced.toml"
           - ".github/build/config.piko.toml"
-env:
-  CONFIG: ".github/build/config.manual.toml"
 concurrency:
   group: build
   cancel-in-progress: false
