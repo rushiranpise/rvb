@@ -712,6 +712,10 @@ dl_apkpure() {
 
 _apkpure_install_xapk() {
 	local xapk=$1 output=$2
+	if ! unzip -t "$xapk" >/dev/null 2>&1; then
+		epr "Downloaded XAPK is not a valid zip (Cloudflare block?): $xapk"
+		return 1
+	fi
 	if unzip -l "$xapk" 2>/dev/null | grep -q '\.apk$'; then
 		if unzip -l "$xapk" 2>/dev/null | grep -q 'base\.apk'; then
 			pr "Extracting base.apk from XAPK"
@@ -724,8 +728,8 @@ _apkpure_install_xapk() {
 		pr "XAPK is standalone APK, renaming"
 		cp "$xapk" "$output"
 	else
-		pr "Unknown XAPK structure, attempting merge"
-		merge_splits "$xapk" "$output"
+		epr "Unknown XAPK structure, cannot process: $xapk"
+		return 1
 	fi
 }
 
