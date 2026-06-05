@@ -28,7 +28,7 @@ def generate_regex(section_name):
     slug = slugify(section_name)
     return f"^{slug}-morphe-v?\\d.*\\.apk$"
 
-def extract_package_names(config_text, ignore_first=0):
+def extract_package_names(config_text, ignore_first=1):
     """Extract # package-name = value from config text, skipping first ignore_first lines."""
     package_map = {}
     current_section = None
