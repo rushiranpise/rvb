@@ -737,7 +737,9 @@ get_apkcombo_resp() {
 	url="${url%/}"
 	__APKCOMBO_PKG__="${url##*/}"
 	__APKCOMBO_BASE_URL__="$url"
-	__APKCOMBO_RESP__=$(req "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download" -) || return 1
+	local html=""
+	_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download" || return 1
+	__APKCOMBO_RESP__="$html"
 }
 get_apkcombo_vers() {
 	echo "$__APKCOMBO_RESP__" | grep -oP 'phone-\K[0-9][^-]+-apk' | sed 's/-apk$//' | head -1
@@ -745,9 +747,10 @@ get_apkcombo_vers() {
 get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
-	local page checkin dl_url final_url
+	local page checkin dl_url final_url html=""
 	if [ -n "$version" ]; then
-		page=$(req "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" -) || return 1
+		_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" || return 1
+		page="$html"
 	else
 		page="$__APKCOMBO_RESP__"
 	fi
