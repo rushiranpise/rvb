@@ -39,7 +39,7 @@ jobs:
           java-version: "21"
 
       - name: Setup Cloudflare WARP
-        run: bash ".github/cf_warp.sh"
+        run: bash "/home/runner/work/rvb/rvb/.github/cf_warp.sh"
 
       - name: Start FlareSolverr
         run: |
