@@ -38,7 +38,7 @@ jobs:
 
       - name: Generate README
         run: |
-          python obtainium.py
+          python obtainium.py --input config.toml --output README.md --ignore-first 1
 
       - name: Debug git status
         run: |
