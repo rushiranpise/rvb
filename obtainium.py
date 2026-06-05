@@ -4,6 +4,8 @@ import json
 import urllib.parse
 import re
 
+CONFIG_FILE = "config.toml"
+OUTPUT_FILE = "README.md"
 REPO_URL = "https://github.com/rushiranpise/rvb"
 AUTHOR = "rushiranpise"
 BASE_OBTAINIUM_URL = (
