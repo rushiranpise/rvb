@@ -690,7 +690,7 @@ dl_apkpure() {
 	[ -n "${FS_COOKIES:-}" ] && cookie_header=(-H "Cookie: $FS_COOKIES")
 
 	local is_bundle=false
-	echo "$download_url" | grep -qi '\.xapk' && is_bundle=true
+	echo "$download_url" | grep -qi 'xapk' && is_bundle=true
 
 	if [ "$is_bundle" = true ]; then
 		curl -L -s -S \
