@@ -1,6 +1,7 @@
 name: Build
 
 on:
+  push:
   workflow_call:
     inputs:
       config_file:
