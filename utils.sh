@@ -653,11 +653,6 @@ dl_apkpure() {
 	local url=$1 version=$2 output=$3 arch=${4:-} _dpi=${5:-}
 	local html=""
 
-	if [ -f "${output}.xapk" ]; then
-		_apkpure_install_xapk "${output}.xapk" "${output}" || return 1
-		return 0
-	fi
-
 	local dl_page_url
 	if [ -n "$version" ]; then
 		dl_page_url="${__APKPURE_BASE_URL__}/downloading/${version}"
