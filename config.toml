@@ -163,7 +163,6 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Google-Photos]
-
 # package-name = com.google.android.apps.photos
 # uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos"
@@ -238,7 +237,6 @@ build-mode = "apk"
 dpi = "nodpi anydpi"
 enabled = true
 parallel-jobs = 1
-
 patches-source = "MorpheApp/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
@@ -345,7 +343,6 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Transit]
-
 # package-name = com.thetransitapp.droid
 # uptodown-dlurl = "https://transit.en.uptodown.com/android"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/transit-app-inc/transit-real-time-transit-app"
