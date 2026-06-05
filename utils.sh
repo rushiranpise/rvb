@@ -747,32 +747,37 @@ get_apkcombo_vers() {
 get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
-	local page dl_url final_url html="" app_page_url=""
+	local html="" dl_url final_url checkin fp ip api_resp
 
-	_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download" || return 1
-	page="$html"
-	app_page_url=$(echo "$page" | grep -oP 'https://apkcombo\.com/[^/]+/'"${__APKCOMBO_PKG__}"'/download/phone-[^"'\'']+' | head -1) || true
-	if [ -z "$app_page_url" ] && [ -n "$version" ]; then
-		local base_app_url
-		base_app_url=$(echo "$page" | grep -oP 'https://apkcombo\.com/[^/]+/'"${__APKCOMBO_PKG__}"'/download[^"'\'']*' | head -1) || true
-		[ -n "$base_app_url" ] && app_page_url="${base_app_url%%/phone*}/phone-${version}-apk"
+	checkin=$(req "https://apkcombo.com/checkin" -) || true
+	fp=$(echo "$checkin" | grep -oP '(?<=fp=)[^&]+') || true
+	ip=$(echo "$checkin" | grep -oP '(?<=ip=)[^&]+') || true
+
+	local version_code=""
+	if [ -n "$version" ]; then
+		_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download" || return 1
+		version_code=$(echo "$html" | grep -oP '"versionCode"\s*:\s*\K[0-9]+' | head -1) || true
+		[ -z "$version_code" ] && \
+			version_code=$(echo "$html" | grep -oP "phone-${version}-apk[^\"']*versionCode[^0-9]*\K[0-9]+" | head -1) || true
 	fi
-	[ -z "$app_page_url" ] && { epr "Could not find APKCombo app page for ${__APKCOMBO_PKG__}"; return 1; }
-	app_page_url="${app_page_url/\/download\/apk\//\/download\/}"
-	pr "APKCombo app page: $app_page_url"
 
-	_fs_get "$app_page_url" || return 1
-	page="$html"
-	wpr "APKCombo dl page hrefs: $(echo "$page" | grep -oiP 'href="[^"]{0,150}"' | grep -i 'r2\|apk\|download' | head -10 | tr '\n' '|')"
-	dl_url=$(echo "$page" | grep -oP '(?<=href=")/r2\?[^"]+' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP 'href="/r2[^"]+' | sed 's/href="//' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP 'https://download\.apkcombo\.com/[^"]+' | head -1) || true
+	api_resp=$(req "https://apkcombo.com/apkcombo/download?region=us&device=phone&package_name=${__APKCOMBO_PKG__}&version_code=${version_code}&lang=en&fp=${fp}&ip=${ip}" -) || true
+	dl_url=$(echo "$api_resp" | grep -oP 'https://apks\.[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$api_resp" | jq -r '.url // empty' 2>/dev/null) || true
+
+	if [ -z "$dl_url" ]; then
+		_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download" || return 1
+		local app_page_url
+		app_page_url=$(echo "$html" | grep -oP 'https://apkcombo\.com/[^/]+/'"${__APKCOMBO_PKG__}"'/download/phone-[^"'\'']+' | head -1) || true
+		[ -n "$version" ] && [ -n "$app_page_url" ] && app_page_url="${app_page_url%%/phone*}/phone-${version}-apk"
+		[ -z "$app_page_url" ] && { epr "Could not find APKCombo app page"; return 1; }
+		pr "APKCombo app page: $app_page_url"
+		dl_url="/r2?u=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote('${app_page_url}',safe=''))" 2>/dev/null)&${checkin}&package_name=${__APKCOMBO_PKG__}&lang=en"
+	fi
+
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
-
-	local checkin
-	checkin=$(req "https://apkcombo.com/checkin" -) || true
-	[ -n "$checkin" ] && dl_url="${dl_url}&${checkin}"
+	[ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]] && dl_url="${dl_url}&${checkin}"
 	pr "Downloading from APKCombo: $dl_url"
 	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
 		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$dl_url") || return 1
