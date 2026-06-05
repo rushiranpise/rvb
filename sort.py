@@ -1,89 +1,115 @@
-input_file = "config.toml"
-output_file = "config.toml"
+import argparse
 
-with open(input_file, "r", encoding="utf-8") as f:
-    text = f.read()
+def main():
+    parser = argparse.ArgumentParser(description="Sort TOML blocks and keys.")
+    parser.add_argument("--ignore-first", type=int, default=0,
+                        help="Ignore first N lines (keep them untouched, no sorting)")
+    parser.add_argument("--input", default="config.toml", help="Input file")
+    parser.add_argument("--output", default="config.toml", help="Output file")
+    args = parser.parse_args()
 
-# Split into blocks
-blocks = []
-current = []
+    input_file = args.input
+    output_file = args.output
+    ignore_first = args.ignore_first
 
-for line in text.splitlines():
-    if line.startswith('['):
-        if current:
-            blocks.append(current)
-        current = [line]
-    else:
-        current.append(line)
+    # Read lines preserving newline characters
+    with open(input_file, "r", encoding="utf-8") as f:
+        all_lines = f.readlines()
 
-if current:
-    blocks.append(current)
+    # Split into untouched header and the rest to process
+    if ignore_first >= len(all_lines):
+        # Nothing to process – just copy the file
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.writelines(all_lines)
+        print(f"Copied untouched (all lines ignored) to: {output_file}")
+        return
 
-# Sort contents inside each block
-def sort_block(block):
-    header = block[0]
-    content = block[1:]
+    header_lines = all_lines[:ignore_first]          # exact original lines
+    rest_lines = all_lines[ignore_first:]            # lines to be sorted
 
-    groups = []
-    current_group = []
+    # Rebuild the rest part into a single string (our processing expects a string)
+    rest_text = "".join(rest_lines)
 
-    multiline = False
+    # --- existing processing logic (works on rest_text) ---
+    # Split into blocks
+    blocks = []
+    current = []
 
-    for line in content:
-        stripped = line.strip()
-
-        # Handle multiline strings
-        if '"""' in stripped:
-            current_group.append(line)
-
-            if stripped.count('"""') == 1:
-                multiline = not multiline
-
-            if not multiline:
-                groups.append(current_group)
-                current_group = []
-
-            continue
-
-        if multiline:
-            current_group.append(line)
-            continue
-
-        # New config entry
-        if "=" in line:
-            if current_group:
-                groups.append(current_group)
-            current_group = [line]
+    for line in rest_text.splitlines():
+        if line.startswith('['):
+            if current:
+                blocks.append(current)
+            current = [line]
         else:
-            current_group.append(line)
+            current.append(line)
 
-    if current_group:
-        groups.append(current_group)
+    if current:
+        blocks.append(current)
 
-    # Sort by first line of each group
-    groups.sort(key=lambda g: g[0].lower())
+    # Sort contents inside each block
+    def sort_block(block):
+        header = block[0]
+        content = block[1:]
 
-    result = [header]
+        groups = []
+        current_group = []
+        multiline = False
 
-    for g in groups:
-        result.extend(g)
+        for line in content:
+            stripped = line.strip()
 
-    return result
+            if '"""' in stripped:
+                current_group.append(line)
+                if stripped.count('"""') == 1:
+                    multiline = not multiline
+                if not multiline:
+                    groups.append(current_group)
+                    current_group = []
+                continue
 
-# Sort blocks A-Z
-blocks.sort(key=lambda b: b[0].strip("[]").lower())
+            if multiline:
+                current_group.append(line)
+                continue
 
-# Sort internals
-blocks = [sort_block(b) for b in blocks]
+            if "=" in line:
+                if current_group:
+                    groups.append(current_group)
+                current_group = [line]
+            else:
+                current_group.append(line)
 
-# Rebuild
-# Rebuild with ONLY one empty line between blocks
-final_text = "\n\n".join(
-    "\n".join(line.rstrip() for line in b).strip()
-    for b in blocks
-).strip() + "\n"
+        if current_group:
+            groups.append(current_group)
 
-with open(output_file, "w", encoding="utf-8") as f:
-    f.write(final_text)
+        groups.sort(key=lambda g: g[0].lower())
 
-print(f"Sorted file written to: {output_file}")
+        result = [header]
+        for g in groups:
+            result.extend(g)
+        return result
+
+    # Sort blocks A-Z
+    blocks.sort(key=lambda b: b[0].strip("[]").lower())
+    # Sort internals
+    blocks = [sort_block(b) for b in blocks]
+
+    # Rebuild processed part with exactly one empty line between blocks
+    processed_text = "\n\n".join(
+        "\n".join(line.rstrip() for line in b).strip()
+        for b in blocks
+    ).strip()
+    if processed_text:
+        processed_text += "\n"   # trailing newline for consistency
+
+    # --- Combine untouched header and processed part ---
+    # Header lines already contain their original newlines.
+    # We write them as they are, then the processed text.
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.writelines(header_lines)      # untouched lines
+        f.write(processed_text)         # sorted rest
+
+    print(f"Ignored first {ignore_first} line(s). Sorted the rest.")
+    print(f"Output written to: {output_file}")
+
+if __name__ == "__main__":
+    main()
