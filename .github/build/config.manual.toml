@@ -1,3 +1,4 @@
+parallel-jobs = 1
 [1-1-1-1]
 # package-name = com.cloudflare.onedotonedotonedotone
 apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
@@ -42,7 +43,7 @@ rv-brand = "Morphe"
 # package-name = com.saldous.casetracker
 arch = "auto"
 dpi = "nodpi anydpi"
-enabled = true
+enabled = false
 patches-source = "rushiranpise/morphe-patches"
 apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.usciscasetracker/downloading/"
 rv-brand = "Morphe"
