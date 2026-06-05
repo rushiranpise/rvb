@@ -603,19 +603,25 @@ dl_apkmirror() {
 	pr "Downloading APK: $final_url"
 	local cookie_args=()
 	[ -n "${FS_COOKIES:-}" ] && cookie_args=(--header "Cookie: $FS_COOKIES")
+	local referer_url="$base_url$btn_url"
+	[[ "$btn_url" == http* ]] && referer_url="$btn_url"
 
 	if [ "$is_bundle" = true ]; then
 		wget -nv -O "${output}.apkm" \
 			--header="User-Agent: ${user_agent:-Mozilla/5.0}" \
-			--referer="$btn_url" \
+			--referer="$referer_url" \
 			"${cookie_args[@]}" \
 			--timeout=300 \
 			"$final_url" || return 1
+		if ! unzip -t "${output}.apkm" >/dev/null 2>&1; then
+			epr "Downloaded file is not a valid zip (apkm): $final_url"
+			return 1
+		fi
 		merge_splits "${output}.apkm" "${output}"
 	else
 		wget -nv -O "${output}" \
 			--header="User-Agent: ${user_agent:-Mozilla/5.0}" \
-			--referer="$btn_url" \
+			--referer="$referer_url" \
 			"${cookie_args[@]}" \
 			--timeout=300 \
 			"$final_url" || return 1
@@ -648,7 +654,7 @@ dl_apkpure() {
 	local html=""
 
 	if [ -f "${output}.xapk" ]; then
-		merge_splits "${output}.xapk" "${output}"
+		_apkpure_install_xapk "${output}.xapk" "${output}"
 		return 0
 	fi
 
@@ -693,7 +699,7 @@ dl_apkpure() {
 			"${cookie_header[@]}" \
 			--connect-timeout 30 --max-time 300 \
 			"$download_url" -o "${output}.xapk" || return 1
-		merge_splits "${output}.xapk" "${output}"
+		_apkpure_install_xapk "${output}.xapk" "${output}"
 	else
 		curl -L --fail -s -S \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
