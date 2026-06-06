@@ -7,43 +7,46 @@ apkcombo-dlurl = "https://apkcombo.com/search/com.cloudflare.onedotonedotonedoto
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Adguard]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/adguard-software-limited/adguard"
 # package-name = com.adguard
 # uptodown-dlurl = "https://adguard-for-android.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/adguard-software-limited/adguard"
+apkcombo-dlurl = "https://apkcombo.com/search/com.adguard/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "hoo-dles/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Automate]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/llamalab/automate-llamalab"
 # package-name = com.llamalab.automate
 # uptodown-dlurl = "https://automate-beta.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/llamalab/automate-llamalab"
+apkcombo-dlurl = "https://apkcombo.com/search/com.llamalab.automate/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "BholeyKaBhakt/android-patches-xtra"
 rv-brand = "Morphe"
 version = "auto"
 
 [CamScanner]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/intsig-pte/camscanner-phone-pdf-creator"
 # package-name = com.intsig.camscanner
 # uptodown-dlurl = "https://camscanner-pdf-creator.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/intsig-pte/camscanner-phone-pdf-creator"
+apkcombo-dlurl = "https://apkcombo.com/search/com.intsig.camscanner/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "hoo-dles/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
@@ -62,14 +65,15 @@ rv-brand = "Morphe"
 version = "auto"
 
 [citizen]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
+# apkpure-dlurl = "https://apkpure.com/citizen-protect-the-world/sp0n.citizen"
 # package-name = sp0n.citizen
 # uptodown-dlurl = "https://citizen.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
-apkpure-dlurl = "https://apkpure.com/citizen-protect-the-world/sp0n.citizen"
+apkcombo-dlurl = "https://apkcombo.com/search/sp0n.citizen/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
@@ -88,77 +92,83 @@ rv-brand = "Morphe"
 version = "26.21.1"
 
 [Cube-ACR]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
 # package-name = com.catalinagroup.callrecorder
 # uptodown-dlurl = "https://cube-acr.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
+apkcombo-dlurl = "https://apkcombo.com/search/com.catalinagroup.callrecorder/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [DocScanner]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/lufick/document-scanner-pdf-creator"
 # package-name = com.cv.docscanner
 # uptodown-dlurl = "https://doc-scanner.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/lufick/document-scanner-pdf-creator"
+apkcombo-dlurl = "https://apkcombo.com/search/com.cv.docscanner/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 version = "auto"
 
 [Duolingo]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/duolingo/duolingo-duolingo"
 # package-name = com.duolingo
 # uptodown-dlurl = "https://duolingo.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/duolingo/duolingo-duolingo"
+apkcombo-dlurl = "https://apkcombo.com/search/com.duolingo"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "hoo-dles/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Eyecon]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/eyecon-phone-dialer-contacts/eyecon-caller-id-spam-block"
 # package-name = com.eyecon.global
 # uptodown-dlurl = "https://eyecon-phone-dialer-and-cont-eyecon.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/eyecon-phone-dialer-contacts/eyecon-caller-id-spam-block"
+apkcombo-dlurl = "https://apkcombo.com/search/com.eyecon.global/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 version = "auto"
 
 [Facebook]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
+# archive-dlurl = "https://archive.org/download/geologically/apks/com.facebook.katana/"
+# github-dlurl = "https://github.com/nvbangg/builder-for-morphe/releases/tag/com.facebook.katana"
 # package-name = com.facebook.katana
 # uptodown-dlurl = "https://facebook.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
+apkcombo-dlurl = "https://apkcombo.com/search/com.facebook.katana/"
 arch = "arm64-v8a"
-archive-dlurl = "https://archive.org/download/geologically/apks/com.facebook.katana/"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
-github-dlurl = "hhttps://github.com/nvbangg/builder-for-morphe/releases/tag/com.facebook.katana"
+enabled = true
 patches-source = "meridianfresco/morphe-meta-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Fing]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/fing-limited/fing-network-tools"
 # package-name = com.overlook.android.fing
 # uptodown-dlurl = "https://fing-network-tools.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/fing-limited/fing-network-tools"
+apkcombo-dlurl = "https://apkcombo.com/search/com.overlook.android.fing/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
@@ -166,13 +176,15 @@ version = "auto"
 
 [Google-Photos]
 
+
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos"
 # package-name = com.google.android.apps.photos
 # uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos"
+apkcombo-dlurl = "https://apkcombo.com/search/com.google.android.apps.photos/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "RookieEnough/De-Vanced"
 rv-brand = "Morphe"
 version = "auto"
@@ -181,125 +193,135 @@ included-patches = """\
     """
 
 [Instagram]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+# archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android/"
+# github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/instagram"
 # package-name = com.instagram.android
 # uptodown-dlurl = "https://instagram.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+apkcombo-dlurl = "https://apkcombo.com/search/com.instagram.android/"
 arch = "arm64-v8a"
-archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android/"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
-github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/instagram"
+enabled = true
 patches-source = "crimera/piko"
 rv-brand = "Morphe"
 version = "auto"
 
 [Komoot]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/komoot-gmbh/komoot-cycling-hiking-mountain-biking-maps"
 # package-name = de.komoot.android
 # uptodown-dlurl = "https://komoot.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/komoot-gmbh/komoot-cycling-hiking-mountain-biking-maps"
+apkcombo-dlurl = "https://apkcombo.com/search/de.komoot.android"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "brosssh/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [MacroDroid]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2"
 # package-name = com.arlosoft.macrodroid
 # uptodown-dlurl = "https://macrodroid.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2"
+apkcombo-dlurl = "https://apkcombo.com/search/com.arlosoft.macrodroid/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 version = "auto"
 
 [Mapy]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/seznam-cz-a-s/mapy-cz-navigation-off-maps"
 # package-name = cz.seznam.mapy
 # uptodown-dlurl = "https://mapy-cz.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/seznam-cz-a-s/mapy-cz-navigation-off-maps"
+apkcombo-dlurl = "https://apkcombo.com/search/cz.seznam.mapy/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "brosssh/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Music]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music"
 # package-name = com.google.android.apps.youtube.music
 # uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music"
+apkcombo-dlurl = "https://apkcombo.com/search/com.google.android.apps.youtube.music/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "MorpheApp/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Proton-Mail]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email"
 # package-name = ch.protonmail.android
 # uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email"
+apkcombo-dlurl = "https://apkcombo.com/search/ch.protonmail.android/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "RookieEnough/De-Vanced"
 rv-brand = "Morphe"
 version = "auto"
 
 [Proton-Vpn-Paresh]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
 # package-name = ch.protonvpn.android
 # uptodown-dlurl = "https://protonvpn.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
+apkcombo-dlurl = "https://apkcombo.com/search/ch.protonvpn.android/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 version = "auto"
 
 [Reddit]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
 # package-name = com.reddit.frontpage
 # uptodown-dlurl = "https://reddit-official-app.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
+apkcombo-dlurl = "https://apkcombo.com/search/com.reddit.frontpage/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "MorpheApp/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Speedtest]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/ookla/speedtest"
 # package-name = org.zwanoo.android.speedtest
 # uptodown-dlurl = "https://speedtest-net-mobile.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/ookla/speedtest"
+apkcombo-dlurl = "https://apkcombo.com/search/com.zwanoo.android.speedtest/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "BholeyKaBhakt/android-patches-xtra"
 rv-brand = "Morphe"
 version = "auto"
 
 [Splitwise]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/splitwise/splitwise"
 # package-name = com.Splitwise.SplitwiseMobile
 # uptodown-dlurl = "https://splitwise.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/splitwise/splitwise"
+apkcombo-dlurl = "https://apkcombo.com/search/com.Splitwise.SplitwiseMobile/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
@@ -326,34 +348,37 @@ apkcombo-dlurl = "https://apkcombo.com/search/org.telegram.messenger.web/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 version = "auto"
 
 [TikTok]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
 # package-name = com.zhiliaoapp.musically
 # uptodown-dlurl = "https://tiktok.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
+apkcombo-dlurl = "https://apkcombo.com/search/com.zhiliaoapp.musically/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "RookieEnough/De-Vanced"
 rv-brand = "Morphe"
 version = "auto"
 
 [Transit]
 
+
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/transit-app-inc/transit-real-time-transit-app"
+# apkpure-dl = "https://apkpure.com/transit-subway-bus-times/com.thetransitapp.droid"
 # package-name = com.thetransitapp.droid
 # uptodown-dlurl = "https://transit.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/transit-app-inc/transit-real-time-transit-app"
-apkpure-dl = "https://apkpure.com/transit-subway-bus-times/com.thetransitapp.droid"
+apkcombo-dlurl = "https://apkcombo.com/search/com.thetransitapp.droid/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "andronedev/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
@@ -362,74 +387,79 @@ excluded-patches = """\
   """
 
 [Truecaller]
+# archive-dlurl = "https://archive.org/download/geologically/apks/com.truecaller/"
 # package-name = com.truecaller
+apkcombo-dlurl = "https://apkcombo.com/search/com.truecaller/"
 arch = "arm64-v8a"
-archive-dlurl = "https://archive.org/download/geologically/apks/com.truecaller/"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "Paresh-Maheshwari/paresh-patches"
 patches-source-host = "gitlab"
 rv-brand = "Morphe"
 version = "auto"
 
 [Twitter]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter/"
+# archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
+# github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/x-twitter"
 # package-name = com.twitter.android
 # uptodown-dlurl = "https://twitter.en.uptodown.com/android/"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter/"
 arch = "arm64-v8a"
-archive-dlurl = "https://archive.org/download/geologically/apks/com.twitter.android/"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
-github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/x-twitter"
+enabled = true
 patches-source = "crimera/piko"
 rv-brand = "Morphe"
 version = "11.81.0-release.0"
 
 [Unimote]
+# apkpure-dlurl = "https://apkpure.com/universal-tv-remote-control/sensustech.universal.tv.remote.control"
 # package-name = sensustech.universal.tv.remote.control
 # uptodown-dlurl = "https://unimote.en.uptodown.com/android"
-apkpure-dlurl = "https://apkpure.com/universal-tv-remote-control/sensustech.universal.tv.remote.control"
+apkcombo-dlurl = "https://apkcombo.com/search/com.sensustech.universal.tv.remote.control/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [WPS-Office]
+# archive-dlurl = "https://archive.org/download/geologically/apks/cn.wps.moffice_eng/"
 # package-name = cn.wps.moffice_eng
+apkcombo-dlurl = "https://apkcombo.com/search/cn.wps.moffice_eng/"
 arch = "arm64-v8a"
-archive-dlurl = "https://archive.org/download/geologically/apks/cn.wps.moffice_eng/"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "hoo-dles/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [Xodo]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/apryse-software-inc/xodo-pdf-reader-editor"
 # package-name = com.xodo.pdf.reader
 # uptodown-dlurl = "https://xodo-docs.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/apryse-software-inc/xodo-pdf-reader-editor"
+apkcombo-dlurl = "https://apkcombo.com/search/com.xodo.pdf.reader/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "hoo-dles/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
 
 [YouTube]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
 # package-name = com.google.android.youtube
 # uptodown-dlurl = "https://youtube.en.uptodown.com/android"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
+apkcombo-dlurl = "https://apkcombo.com/search/com.google.android.youtube/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = false
+enabled = true
 patches-source = "MorpheApp/morphe-patches"
 rv-brand = "Morphe"
 version = "auto"
