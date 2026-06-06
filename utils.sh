@@ -773,20 +773,30 @@ dl_apkcombo() {
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
 	dl_url=$(echo "$dl_url" | sed 's/\\u0026/\&/g; s/&amp;/\&/g')
 
-	checkin=$(req "https://apkcombo.com/checkin" -) || true
-	if [ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]]; then
-		if [[ "$dl_url" == *\?* ]]; then
-			dl_url="${dl_url}&${checkin}"
-		else
-			dl_url="${dl_url}?${checkin}"
+	if [[ "$dl_url" == https://apkcombo.com/r2\?u=* ]]; then
+		final_url=$(python - <<'PYC' "$dl_url"
+import sys, urllib.parse
+u=sys.argv[1]
+q=urllib.parse.urlparse(u).query
+print(urllib.parse.unquote(urllib.parse.parse_qs(q).get('u',[''])[0]))
+PYC
+) || return 1
+	else
+		checkin=$(req "https://apkcombo.com/checkin" -) || true
+		if [ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]]; then
+			if [[ "$dl_url" == *\?* ]]; then
+				dl_url="${dl_url}&${checkin}"
+			else
+				dl_url="${dl_url}?${checkin}"
+			fi
 		fi
+		wpr "APKCombo checkin: $checkin"
+		final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
+			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+			-H "Referer: $page_url" "$dl_url") || return 1
 	fi
-	wpr "APKCombo checkin: $checkin"
 
-	pr "Downloading from APKCombo: $dl_url"
-	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
-		-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
-		-H "Referer: $page_url" "$dl_url") || return 1
+	pr "Downloading from APKCombo: $final_url"
 	curl -L --fail -s -S --connect-timeout 30 --max-time 300 \
 		-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
 		-H "Referer: $page_url" "$final_url" -o "$output" || return 1
