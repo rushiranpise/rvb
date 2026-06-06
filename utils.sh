@@ -778,9 +778,20 @@ dl_apkcombo() {
 import sys, urllib.parse
 u=sys.argv[1]
 q=urllib.parse.urlparse(u).query
-print(urllib.parse.unquote(urllib.parse.parse_qs(q).get('u',[''])[0]))
+raw=urllib.parse.parse_qs(q).get('u',[''])[0]
+decoded=urllib.parse.unquote(raw)
+parts=urllib.parse.urlsplit(decoded)
+query=urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+encoded=urllib.parse.urlunsplit((
+    parts.scheme,
+    parts.netloc,
+    parts.path,
+    urllib.parse.urlencode(query, doseq=True, safe='/:_-.'),
+    parts.fragment,
+))
+print(encoded)
 PYC
-) || return 1
+		) || return 1
 	else
 		checkin=$(req "https://apkcombo.com/checkin" -) || true
 		if [ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]]; then
