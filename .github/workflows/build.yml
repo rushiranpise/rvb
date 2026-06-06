@@ -38,6 +38,18 @@ jobs:
           distribution: "temurin"
           java-version: "21"
 
+      - name: Start FlareSolverr
+        run: |
+          docker run -d --name flaresolverr -p 8191:8191 ghcr.io/flaresolverr/flaresolverr:latest
+          echo "[*] Waiting for FlareSolverr to be ready..."
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:8191/ > /dev/null 2>&1; then
+              echo "[+] FlareSolverr is ready."
+              break
+            fi
+            sleep 2
+          done
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -122,7 +134,7 @@ jobs:
           branch: main
           skip_checkout: true
           file_pattern: README.md
-          commit_message: "Update README for Build No. ${{ steps.version.outputs.NEXT_VER_CODE }} [skip ci]"
+          commit_message: "Update README for Build ${{ steps.version.outputs.NEXT_VER_CODE }} [skip ci]"
 
       - name: Upload to release (Archive)
         uses: softprops/action-gh-release@v3
@@ -138,7 +150,7 @@ jobs:
           body: ${{ steps.get_output.outputs.BUILD_LOG }}
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ./build/*
-          name: Build No. ${{ steps.version.outputs.NEXT_VER_CODE }}
+          name: Build ${{ steps.version.outputs.NEXT_VER_CODE }}
           tag_name: ${{ steps.version.outputs.NEXT_VER_CODE }}
           overwrite_files: true
           prerelease: ${{ steps.context.outputs.IS_PRERELEASE == 'true' }}
@@ -210,7 +222,7 @@ jobs:
 
           BODY="$(sed 's/^\* \*\*/↪ \*\*/g; s/^\* `/↪ \*\*/g; s/`/\*/g; s/^\* /\↪/g; s/\*\*/\*/g; s/###//g; s/^- /↪ /g; /^==/d;' ../build.tmp)"
 
-          MSG="*Build No. ${{ steps.version.outputs.NEXT_VER_CODE }}*${TITLE_SUFFIX}${NL}${NL}${BODY}${NL}${NL}"
+          MSG="*Build ${{ steps.version.outputs.NEXT_VER_CODE }}*${TITLE_SUFFIX}${NL}${NL}${BODY}${NL}${NL}"
             
           if [ "$HAS_MODULES" = true ]; then
             MSG+="*Modules:*${MODULES}${NL}${NL}"

@@ -4,6 +4,8 @@ Adding another revanced app is as easy as this:
 ```toml
 [Some-App]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/inc/app"
+# or apkpure-dlurl = "https://apkpure.com/app/com.some.app"
+# or apkcombo-dlurl = "https://apkcombo.com/search/com.some.app"
 # or uptodown-dlurl = "https://app.en.uptodown.com/android"
 ```
 
@@ -58,6 +60,8 @@ include-stock = "merged"                                   # 'merged', 'split' o
 exclusive-patches = false                                  # exclude all patches by default. default: false
 
 apkmirror-dlurl = "https://www.apkmirror.com/apk/inc/app"
+apkpure-dlurl = "https://apkpure.com/app/com.some.app"
+apkcombo-dlurl = "https://apkcombo.com/search/com.some.app"
 uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 # github release tag url. downloads apk assets from that release.
 github-dlurl = "https://github.com/nvbangg/apks/releases/tag/com.some.app"

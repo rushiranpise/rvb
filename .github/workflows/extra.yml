@@ -1,0 +1,54 @@
+name: Extra
+
+on:
+  push:
+    paths:
+      - config.toml
+
+permissions:
+  contents: write
+
+jobs:
+  extra:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Remove old config.tomls
+        run: |
+          rm -f .github/build/config.stable.toml
+          ls -la .github/build
+
+      - name: Run sort.py
+        run: python sort.py --input config.toml --output config.toml --ignore-first 1
+
+      - name: Copy config.toml to build configs
+        run: |
+          cp config.toml .github/build/config.stable.toml
+
+      - name: Generate README
+        run: |
+          python obtainium.py --input config.toml --output README.md --ignore-first 1
+
+      - name: Debug git status
+        run: |
+          git status
+          git add .
+          git status
+
+      - name: Commit sorted config changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          branch: main
+          skip_checkout: true
+          commit_message: "sort config & generate readme obtainium links [skip ci]"
+          file_pattern: "README.md config.toml .github/build/*.toml"
