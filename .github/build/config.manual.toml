@@ -57,22 +57,22 @@ version = "auto"
 
 [casetracker]
 # package-name = com.saldous.casetracker
-apkcombo-dlurl = "https://apkcombo.com/search/com.saldous.casetracker"
+# apkcombo-dlurl = "https://apkcombo.com/search/com.saldous.casetracker"
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/saldous/case-tracker-for-uscis/" # broken
-# apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.casetracker"
+apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.casetracker"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
 enabled = true
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
-uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
+# uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
 version = "auto"
 
 [citizen]
 # package-name = sp0n.citizen
-apkcombo-dlurl = "https://apkcombo.com/search/sp0n.citizen/"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
+# apkcombo-dlurl = "https://apkcombo.com/search/sp0n.citizen/"
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
 # apkpure-dlurl = "https://apkpure.com/citizen-protect-the-world/sp0n.citizen"
 arch = "arm64-v8a"
 build-mode = "apk"
@@ -91,7 +91,7 @@ apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.cr
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = true
+enabled = false
 patches-source = "rushiranpise/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
@@ -293,7 +293,7 @@ version = "auto"
 [Proton-Vpn-Paresh]
 # package-name = ch.protonvpn.android
 # apkcombo-dlurl = "https://apkcombo.com/search/ch.protonvpn.android/"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
 # apkpure-dlurl = "https://apkpure.com/protonvpn-secure-and-free-vpn/ch.protonvpn.android" # broken
 arch = "arm64-v8a"
 build-mode = "apk"
@@ -313,7 +313,7 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
-enabled = true
+enabled = false
 patches-source = "MorpheApp/morphe-patches"
 rv-brand = "Morphe"
 uptodown-dlurl = "https://reddit-official-app.en.uptodown.com/android"
