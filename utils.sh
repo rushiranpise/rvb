@@ -749,35 +749,32 @@ get_apkcombo_vers() {
 get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
-	local html="" dl_url final_url checkin fp ip
+	local html="" dl_url final_url checkin page_url
 
-	checkin=$(req "https://apkcombo.com/checkin" -) || true
-	fp=$(echo "$checkin" | grep -oP '(?<=fp=)[^&]+') || true
-	ip=$(echo "$checkin" | grep -oP '(?<=ip=)[^&]+') || true
-	wpr "APKCombo checkin: fp=$fp ip=$ip"
-
-	local api_url="https://apkcombo.com/apkcombo/download?region=us&device=phone&package_name=${__APKCOMBO_PKG__}&version_code=&lang=en&fp=${fp}&ip=${ip}"
-	[ -n "$version" ] && api_url="https://apkcombo.com/apkcombo/download?region=us&device=phone&package_name=${__APKCOMBO_PKG__}&version_code=&version=${version}&lang=en&fp=${fp}&ip=${ip}"
-	local api_resp
-	api_resp=$(req "$api_url" -) || true
-	wpr "APKCombo api_resp: ${api_resp:0:300}"
-
-	dl_url=$(echo "$api_resp" | grep -oP 'https://download\.apkcombo\.com/[^"\\s]+' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$api_resp" | grep -oP '(?<=")https://apks\.[^"]+' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$api_resp" | jq -r '.url // .download_url // empty' 2>/dev/null) || true
-
-	if [ -z "$dl_url" ]; then
-		_fs_get "https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk" "https://apkcombo.com/" || return 1
-		local page="$html"
-		dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1) || true
-		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+\.(apk|xapk|apks)[^"]+' | head -1) || true
-		[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2\?u=[^"]+' | head -1) || true
-		wpr "APKCombo page dl_url=$dl_url"
+	# Page-first approach (matches reference impl): scrape the APK link from the
+	# download page directly, then append checkin token.
+	if [ -n "$version" ]; then
+		page_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk"
+	else
+		page_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/apk"
 	fi
+
+	_fs_get "$page_url" "https://apkcombo.com/" || return 1
+	local page="$html"
+
+	dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+\.(apk|xapk|apks)[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2\?u=[^"]+' | head -1) || true
+	wpr "APKCombo page dl_url=$dl_url"
 
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
+
+	# Append checkin token if not already present
+	checkin=$(req "https://apkcombo.com/checkin" -) || true
 	[ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]] && dl_url="${dl_url}&${checkin}"
+	wpr "APKCombo checkin: $checkin"
+
 	pr "Downloading from APKCombo: $dl_url"
 	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
 		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$dl_url") || return 1
