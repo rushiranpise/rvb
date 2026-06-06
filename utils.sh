@@ -522,12 +522,10 @@ dl_apkmirror() {
 		target_ver=$(echo "$version" | tr '.' '-' | grep -oP '\d+(-\d+)+')
 		if [ -n "$slug_ver" ] && [ -n "$target_ver" ]; then
 			release_url="${base_url}${example_path/$slug_ver/$target_ver}"
-			pr "Fetching APKMirror release page: $release_url"
-			_fs_get "$release_url" || true
+				_fs_get "$release_url" || true
 			resp="$html"
 			if [[ "$resp" == *"Page Not Found"* ]] || [[ "$resp" == *"404 Whoops"* ]] || [ -z "$resp" ]; then
-				wpr "Derived release page not found; trying slug fallback…"
-				release_url=""
+					release_url=""
 			fi
 		fi
 	fi
@@ -537,11 +535,9 @@ dl_apkmirror() {
 		apkmname=$($HTMLQ "h1.marginZero" --text <<<"$__APKMIRROR_RESP__")
 		apkmname="${apkmname,,}" apkmname="${apkmname// /-}" apkmname="${apkmname//[^a-z0-9-]/}"
 		release_url="${url%/}/${apkmname}-${version//./-}-release/"
-		pr "Fetching APKMirror release page: $release_url"
 		_fs_get "$release_url" || true
 		resp="$html"
 		if [[ "$resp" == *"Page Not Found"* ]] || [[ "$resp" == *"404 Whoops"* ]] || [ -z "$resp" ]; then
-			wpr "Slug-based release page not found; searching listing pages…"
 			release_url=""
 		fi
 	fi
@@ -556,7 +552,6 @@ dl_apkmirror() {
 			version_href=$(echo "$html" | grep -oP 'href="\K/apk/[^"]*'"${version//./-}"'[^"]*release[^"]*' | head -1) || true
 			if [ -n "$version_href" ]; then
 				release_url="$base_url$version_href"
-				pr "Found release page on listing page $page_num: $release_url"
 				_fs_get "$release_url" || return 1
 				resp="$html"
 				break
@@ -667,7 +662,6 @@ dl_apkpure() {
 	if [ -z "$version" ]; then
 		version=$(echo "$html" | sed 's/<h2[^>]*>/\n__H2__/g' | grep '__H2__' | sed 's/__H2__//' | grep -oP '[0-9]+\.[0-9][0-9.]*' | head -1) || true
 		[ -z "$version" ] && version=$(echo "$html" | grep -oP '"softwareVersion":"\K[^"]+' | head -1) || true
-		pr "Detected APKPure version: $version"
 	fi
 
 	local download_url
@@ -767,7 +761,6 @@ dl_apkcombo() {
 	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '"url"\s*:\s*"\Khttps://download\.apkcombo\.com/[^"]+' | head -1 | sed 's#\\/#/#g') || true
 	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP 'https://download\.apkcombo\.com/[^"'"'"' <>]+' | head -1 | sed 's#\\/#/#g') || true
 	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '/r2\?u=[^"'"'"' <>]+' | head -1 | sed 's#\\/#/#g') || true
-	wpr "APKCombo page dl_url=$dl_url"
 
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
@@ -801,7 +794,6 @@ PYC
 				dl_url="${dl_url}?${checkin}"
 			fi
 		fi
-		wpr "APKCombo checkin: $checkin"
 		final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
 			-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
 			-H "Referer: $page_url" "$dl_url") || return 1
