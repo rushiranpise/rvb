@@ -1,6 +1,7 @@
 parallel-jobs = 1
 [1-1-1-1]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
+# apkpure-dlurl = "https://apkpure.com/1-1-1-1-faster-safer-internet/com.cloudflare.onedotonedotonedotone" # broken
 # package-name = com.cloudflare.onedotonedotonedotone
 # uptodown-dlurl = "https://1-1-1-1.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.cloudflare.onedotonedotonedotone"
@@ -14,6 +15,7 @@ version = "auto"
 
 [Adguard]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/adguard-software-limited/adguard"
+# apkpure-dlurl = "https://apkpure.com/adguard/com.adguard.android"
 # package-name = com.adguard
 # uptodown-dlurl = "https://adguard-for-android.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.adguard/"
@@ -27,6 +29,7 @@ version = "auto"
 
 [Automate]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/llamalab/automate-llamalab"
+# apkpure-dlurl = "https://apkpure.com/automate/com.llamalab.automate"
 # package-name = com.llamalab.automate
 # uptodown-dlurl = "https://automate-beta.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.llamalab.automate/"
@@ -40,6 +43,7 @@ version = "auto"
 
 [CamScanner]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/intsig-pte/camscanner-phone-pdf-creator"
+# apkpure-dlurl = "https://apkpure.com/camscanner-phone-pdf-creator/com.intsig.camscanner"
 # package-name = com.intsig.camscanner
 # uptodown-dlurl = "https://camscanner-pdf-creator.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.intsig.camscanner/"
@@ -52,6 +56,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [casetracker]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/saldous/case-tracker-for-uscis/" # broken
 # apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.casetracker"
 # package-name = com.saldous.casetracker
 # uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
@@ -79,6 +84,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [crimeradar]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/newsbreak-inc/crimeradar-dispatch-alerts/" # broken
 # apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.crimeradar"
 # package-name = com.newsbreak.crimeradar
 # uptodown-dlurl = "https://crimeradar.en.uptodown.com/android"
@@ -93,6 +99,7 @@ version = "26.21.1"
 
 [Cube-ACR]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/cube-systems/call-recorder-cube-acr/"
+# apkpure-dlurl = "https://apkpure.com/call-recorder-cube-acr/com.catalinagroup.callrecorder"
 # package-name = com.catalinagroup.callrecorder
 # uptodown-dlurl = "https://cube-acr.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.catalinagroup.callrecorder/"
@@ -106,6 +113,7 @@ version = "auto"
 
 [DocScanner]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/lufick/document-scanner-pdf-creator"
+# apkpure-dlurl = "https://apkpure.com/document-scanner-pdf-creator/com.cv.docscanner"
 # package-name = com.cv.docscanner
 # uptodown-dlurl = "https://doc-scanner.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.cv.docscanner/"
@@ -120,6 +128,7 @@ version = "auto"
 
 [Duolingo]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/duolingo/duolingo-duolingo"
+# apkpure-dlurl = "https://apkpure.com/duolingo/com.duolingo"
 # package-name = com.duolingo
 # uptodown-dlurl = "https://duolingo.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.duolingo"
@@ -133,6 +142,7 @@ version = "auto"
 
 [Eyecon]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/eyecon-phone-dialer-contacts/eyecon-caller-id-spam-block"
+# apkpure-dlurl = "https://apkpure.com/eyecon-caller-id-spam-block/com.eyecon.global"
 # package-name = com.eyecon.global
 # uptodown-dlurl = "https://eyecon-phone-dialer-and-cont-eyecon.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.eyecon.global/"
@@ -147,6 +157,7 @@ version = "auto"
 
 [Facebook]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/facebook"
+# apkpure-dlurl = "https://apkpure.com/facebook/com.facebook.katana"
 # archive-dlurl = "https://archive.org/download/geologically/apks/com.facebook.katana/"
 # github-dlurl = "https://github.com/nvbangg/builder-for-morphe/releases/tag/com.facebook.katana"
 # package-name = com.facebook.katana
@@ -162,6 +173,7 @@ version = "auto"
 
 [Fing]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/fing-limited/fing-network-tools"
+# apkpure-dlurl = "https://apkpure.com/fing-network-tools/com.overlook.android.fing"
 # package-name = com.overlook.android.fing
 # uptodown-dlurl = "https://fing-network-tools.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.overlook.android.fing/"
@@ -175,9 +187,8 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Google-Photos]
-
-
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos"
+# apkpure-dlurl = "https://apkpure.com/google-photos/com.google.android.apps.photos"
 # package-name = com.google.android.apps.photos
 # uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.google.android.apps.photos/"
@@ -194,6 +205,7 @@ included-patches = """\
 
 [Instagram]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
+# apkpure-dlurl = "https://apkpure.com/instagram/com.instagram.android"
 # archive-dlurl = "https://archive.org/download/geologically/apks/com.instagram.android/"
 # github-dlurl = "https://github.com/krvstek/uni-storage/releases/tag/instagram"
 # package-name = com.instagram.android
@@ -209,6 +221,7 @@ version = "auto"
 
 [Komoot]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/komoot-gmbh/komoot-cycling-hiking-mountain-biking-maps"
+# apkpure-dlurl = "https://apkpure.com/komoot-hike-bike-run/de.komoot.android"
 # package-name = de.komoot.android
 # uptodown-dlurl = "https://komoot.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/de.komoot.android"
@@ -222,6 +235,7 @@ version = "auto"
 
 [MacroDroid]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/arlosoft/macrodroid-device-automation-2"
+# apkpure-dlurl = "https://apkpure.com/macrodroid-device-automation/com.arlosoft.macrodroid"
 # package-name = com.arlosoft.macrodroid
 # uptodown-dlurl = "https://macrodroid.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.arlosoft.macrodroid/"
@@ -236,6 +250,7 @@ version = "auto"
 
 [Mapy]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/seznam-cz-a-s/mapy-cz-navigation-off-maps"
+# apkpure-dlurl = "https://apkpure.com/mapy-cz-navigation-off-maps/cz.seznam.mapy"
 # package-name = cz.seznam.mapy
 # uptodown-dlurl = "https://mapy-cz.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/cz.seznam.mapy/"
@@ -249,6 +264,7 @@ version = "auto"
 
 [Music]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music"
+# apkpure-dlurl = "https://apkpure.com/youtube-music/com.google.android.apps.youtube.music"
 # package-name = com.google.android.apps.youtube.music
 # uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.google.android.apps.youtube.music/"
@@ -262,6 +278,7 @@ version = "auto"
 
 [Proton-Mail]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonmail-encrypted-email"
+# apkpure-dlurl = "https://apkpure.com/protonmail-encrypted-email/ch.protonmail.android"
 # package-name = ch.protonmail.android
 # uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/ch.protonmail.android/"
@@ -275,6 +292,7 @@ version = "auto"
 
 [Proton-Vpn-Paresh]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
+# apkpure-dlurl = "https://apkpure.com/protonvpn-secure-and-free-vpn/ch.protonvpn.android" # broken
 # package-name = ch.protonvpn.android
 # uptodown-dlurl = "https://protonvpn.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/ch.protonvpn.android/"
@@ -289,6 +307,7 @@ version = "auto"
 
 [Reddit]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
+# apkpure-dlurl = "https://apkpure.com/reddit/com.reddit.frontpage"
 # package-name = com.reddit.frontpage
 # uptodown-dlurl = "https://reddit-official-app.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.reddit.frontpage/"
@@ -302,6 +321,7 @@ version = "auto"
 
 [Speedtest]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/ookla/speedtest"
+# apkpure-dlurl = "https://apkpure.com/speedtest-by-ookla/org.zwanoo.android.speedtest"
 # package-name = org.zwanoo.android.speedtest
 # uptodown-dlurl = "https://speedtest-net-mobile.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.zwanoo.android.speedtest/"
@@ -315,6 +335,7 @@ version = "auto"
 
 [Splitwise]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/splitwise/splitwise"
+# apkpure-dlurl = "https://apkpure.com/splitwise/com.Splitwise.SplitwiseMobile" # broken
 # package-name = com.Splitwise.SplitwiseMobile
 # uptodown-dlurl = "https://splitwise.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.Splitwise.SplitwiseMobile/"
@@ -327,6 +348,7 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Strava]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/strava/strava-run-hike-android-exercise-laugh/" # broken
 # apkpure-dl = "https://apkpure.com/strava-run-hike-android-exercise-laugh/com.strava"
 # package-name = com.strava
 # uptodown-dlurl = "https://strava.en.uptodown.com/android"
@@ -356,6 +378,7 @@ version = "auto"
 
 [TikTok]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
+# apkpure-dlurl = "https://apkpure.com/tiktok/com.zhiliaoapp.musically"
 # package-name = com.zhiliaoapp.musically
 # uptodown-dlurl = "https://tiktok.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.zhiliaoapp.musically/"
@@ -368,8 +391,6 @@ rv-brand = "Morphe"
 version = "auto"
 
 [Transit]
-
-
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/transit-app-inc/transit-real-time-transit-app"
 # apkpure-dl = "https://apkpure.com/transit-subway-bus-times/com.thetransitapp.droid"
 # package-name = com.thetransitapp.droid
@@ -387,6 +408,8 @@ excluded-patches = """\
   """
 
 [Truecaller]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/truecaller/truecaller/"
+# apkpure-dlurl = "https://apkpure.com/truecaller/com.truecaller"
 # archive-dlurl = "https://archive.org/download/geologically/apks/com.truecaller/"
 # package-name = com.truecaller
 apkcombo-dlurl = "https://apkcombo.com/search/com.truecaller/"
@@ -414,6 +437,7 @@ rv-brand = "Morphe"
 version = "11.81.0-release.0"
 
 [Unimote]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/sensustech/universal-tv-remote-control/" # broken
 # apkpure-dlurl = "https://apkpure.com/universal-tv-remote-control/sensustech.universal.tv.remote.control"
 # package-name = sensustech.universal.tv.remote.control
 # uptodown-dlurl = "https://unimote.en.uptodown.com/android"
@@ -427,8 +451,11 @@ rv-brand = "Morphe"
 version = "auto"
 
 [WPS-Office]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/wps-software-pte-ltd/wps-office-pdf/"
+# apkpure-dlurl = "https://apkpure.com/wps-office-pdf-word-excel-ppt/cn.wps.moffice_eng"
 # archive-dlurl = "https://archive.org/download/geologically/apks/cn.wps.moffice_eng/"
 # package-name = cn.wps.moffice_eng
+# uptodown-dlurl = "https://wps-office.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/cn.wps.moffice_eng/"
 arch = "arm64-v8a"
 build-mode = "apk"
@@ -440,6 +467,7 @@ version = "auto"
 
 [Xodo]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/apryse-software-inc/xodo-pdf-reader-editor"
+# apkpure-dlurl = "https://apkpure.com/xodo-pdf-reader-editor/com.xodo.pdf.reader"
 # package-name = com.xodo.pdf.reader
 # uptodown-dlurl = "https://xodo-docs.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.xodo.pdf.reader/"
@@ -453,6 +481,7 @@ version = "auto"
 
 [YouTube]
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
+# apkpure-dlurl = "https://apkpure.com/youtube/com.google.android.youtube"
 # package-name = com.google.android.youtube
 # uptodown-dlurl = "https://youtube.en.uptodown.com/android"
 apkcombo-dlurl = "https://apkcombo.com/search/com.google.android.youtube/"
