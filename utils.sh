@@ -749,10 +749,8 @@ get_apkcombo_vers() {
 get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
 dl_apkcombo() {
 	local _url=$1 version=$2 output=$3 _arch=$4 _dpi=$5
-	local html="" dl_url final_url checkin page_url
+	local html="" dl_url final_url checkin page_url page compact_page
 
-	# Page-first approach (matches reference impl): scrape the APK link from the
-	# download page directly, then append checkin token.
 	if [ -n "$version" ]; then
 		page_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk"
 	else
@@ -760,26 +758,38 @@ dl_apkcombo() {
 	fi
 
 	_fs_get "$page_url" "https://apkcombo.com/" || return 1
-	local page="$html"
+	page="$html"
+	compact_page=$(tr '\n' ' ' <<<"$page")
 
-	dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+\.(apk|xapk|apks)[^"]+' | head -1) || true
-	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2\?u=[^"]+' | head -1) || true
+	dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$page" | grep -oP '(?<=a href=")/r2[^"]+' | head -1) || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '"download_url"\s*:\s*"\K[^"]+' | head -1 | sed 's#\\/#/#g') || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '"url"\s*:\s*"\Khttps://download\.apkcombo\.com/[^"]+' | head -1 | sed 's#\\/#/#g') || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP 'https://download\.apkcombo\.com/[^"'"'"' <>]+' | head -1 | sed 's#\\/#/#g') || true
+	[ -z "$dl_url" ] && dl_url=$(echo "$compact_page" | grep -oP '/r2\?u=[^"'"'"' <>]+' | head -1 | sed 's#\\/#/#g') || true
 	wpr "APKCombo page dl_url=$dl_url"
 
 	[ -z "$dl_url" ] && { epr "Could not find APK link on APKCombo"; return 1; }
 	[[ "$dl_url" != http* ]] && dl_url="https://apkcombo.com${dl_url}"
+	dl_url=$(echo "$dl_url" | sed 's/\\u0026/\&/g; s/&amp;/\&/g')
 
-	# Append checkin token if not already present
 	checkin=$(req "https://apkcombo.com/checkin" -) || true
-	[ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]] && dl_url="${dl_url}&${checkin}"
+	if [ -n "$checkin" ] && [[ "$dl_url" != *fp=* ]]; then
+		if [[ "$dl_url" == *\?* ]]; then
+			dl_url="${dl_url}&${checkin}"
+		else
+			dl_url="${dl_url}?${checkin}"
+		fi
+	fi
 	wpr "APKCombo checkin: $checkin"
 
 	pr "Downloading from APKCombo: $dl_url"
 	final_url=$(curl -s -o /dev/null -w "%{url_effective}" -L --max-redirs 10 \
-		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$dl_url") || return 1
+		-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+		-H "Referer: $page_url" "$dl_url") || return 1
 	curl -L --fail -s -S --connect-timeout 30 --max-time 300 \
-		-H "User-Agent: ${user_agent:-Mozilla/5.0}" "$final_url" -o "$output" || return 1
+		-H "User-Agent: ${user_agent:-Mozilla/5.0}" \
+		-H "Referer: $page_url" "$final_url" -o "$output" || return 1
 	if ! unzip -t "$output" >/dev/null 2>&1; then
 		epr "Downloaded file from APKCombo is not a valid zip"
 		return 1
