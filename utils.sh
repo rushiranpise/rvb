@@ -410,14 +410,16 @@ merge_splits() {
 }
 
 _fs_get() {
-	local url=$1
+	local url=$1 referer=${2:-}
 	local max_retries=5 attempt
 	local fs_url="${FLARESOLVERR_URL:-http://localhost:8191}/v1"
+	local extra_headers=""
+	[ -n "$referer" ] && extra_headers=",\"headers\":{\"Referer\":\"$referer\"}"
 	for attempt in $(seq 1 $max_retries); do
 		local response status
 		response=$(curl -s -X POST "$fs_url" \
 			-H 'Content-Type: application/json' \
-			-d "{\"cmd\":\"request.get\",\"url\":\"$url\",\"maxTimeout\":60000}") || true
+			-d "{\"cmd\":\"request.get\",\"url\":\"$url\",\"maxTimeout\":60000${extra_headers}}") || true
 		status=$(echo "$response" | jq -r '.status // empty')
 		if [[ "$status" == "ok" ]]; then
 			html=$(echo "$response" | jq -r '.solution.response // empty')
@@ -751,7 +753,7 @@ dl_apkcombo() {
 
 	local search_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk"
 	[ -z "$version" ] && search_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/apk"
-	_fs_get "$search_url" || return 1
+	_fs_get "$search_url" "https://apkcombo.com/" || return 1
 	local page="$html"
 
 	dl_url=$(echo "$page" | grep -oP '(?<=a href=")https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1) || true
