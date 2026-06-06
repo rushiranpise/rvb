@@ -5,7 +5,7 @@ CWD=$(pwd)
 TEMP_DIR="temp"
 BIN_DIR="bin"
 BUILD_DIR="build"
-DL_SRCS=("direct" "github" "archive" "apkmirror" "apkpure" "uptodown")
+DL_SRCS=("direct" "github" "archive" "apkmirror" "apkpure" "apkcombo" "uptodown")
 BUILD_JSON_FILE="build.json"
 PATCH_OUTPUT=""
 
@@ -705,6 +705,74 @@ dl_apkpure() {
 			--connect-timeout 30 --max-time 300 \
 			"$download_url" -o "${output}" || return 1
 	fi
+}
+
+# -------------------- apkcombo --------------------
+__APKCOMBO_PKG__=""
+__APKCOMBO_RESP__=""
+
+get_apkcombo_resp() {
+	local url=$1
+	# Extract package name from URL: https://apkcombo.com/<anything>/<pkg.name>/
+	__APKCOMBO_PKG__=$(echo "$url" | grep -oP '[a-z][a-z0-9]*(\.[a-z][a-z0-9]*){1,}' | tail -1)
+	# Build search URL: https://apkcombo.com/search/<pkg>/download/apk
+	local search_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/apk"
+	pr "Fetching APKCombo page: $search_url"
+	__APKCOMBO_RESP__=$(req "$search_url" - -H "Referer: https://apkcombo.com/") || return 1
+	# Follow redirect: if we land on /old-versions/ the pkg is not found
+	if echo "$__APKCOMBO_RESP__" | grep -q "old-versions"; then
+		epr "APKCombo: package not found or version too old"
+		return 1
+	fi
+}
+
+get_apkcombo_vers() {
+	# Parse version strings from the download page listing
+	echo "$__APKCOMBO_RESP__" | grep -oP '(?<=phone-)[\d.]+(?=-apk)' | sort -Vu
+}
+
+get_apkcombo_pkg_name() { echo "$__APKCOMBO_PKG__"; }
+
+dl_apkcombo() {
+	local apkcombo_dlurl=$1 version=$2 output=$3 _arch=$4 _dpi=$5
+
+	# Build versioned search URL
+	local search_url="https://apkcombo.com/search/${__APKCOMBO_PKG__}/download/phone-${version}-apk"
+	pr "APKCombo search URL: $search_url"
+
+	local page_html
+	page_html=$(req "$search_url" - -H "Referer: https://apkcombo.com/") || {
+		epr "APKCombo: failed to fetch download page"
+		return 1
+	}
+
+	# regex1: direct download.apkcombo.com link
+	# regex2: /r2 external redirect links (e.g. com.zhiliaoapp.musically)
+	local dl_url
+	dl_url=$(echo "$page_html" | grep -oP '(?<=href=")https://download\.apkcombo\.com/[^"]+\.apk\?[^"]+' | head -1)
+	if [ -z "$dl_url" ]; then
+		dl_url=$(echo "$page_html" | grep -oP '(?<=href=")/r2[^"]+\.apk[^"]*' | head -1)
+		[ -n "$dl_url" ] && dl_url="https://apkcombo.com${dl_url}"
+	fi
+
+	if [ -z "$dl_url" ]; then
+		epr "Could not find APK link on APKCombo"
+		return 1
+	fi
+	pr "APKCombo page dl_url=$dl_url"
+
+	# Append checkin token (fp=...&ip=...)
+	local checkin
+	checkin=$(req "https://apkcombo.com/checkin" -) || {
+		wpr "APKCombo checkin: $checkin"
+	}
+	pr "APKCombo checkin: $checkin"
+	[ -n "$checkin" ] && dl_url="${dl_url}&${checkin}"
+
+	pr "APKCombo final download URL: $dl_url"
+	req "$dl_url" "$output" \
+		-H "Referer: https://apkcombo.com/" \
+		--connect-timeout 30 --max-time 300 || return 1
 }
 
 # -------------------- uptodown --------------------
