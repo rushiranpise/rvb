@@ -1,9 +1,9 @@
 parallel-jobs = 1
 [1-1-1-1]
+# apkpure-dlurl = "https://apkpure.com/1-1-1-1-faster-safer-internet/com.cloudflare.onedotonedotonedotone" # broken
 # package-name = com.cloudflare.onedotonedotonedotone
 apkcombo-dlurl = "https://apkcombo.com/search/com.cloudflare.onedotonedotonedotone"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/cloudflare/1-1-1-1-faster-safer-internet/"
-# apkpure-dlurl = "https://apkpure.com/1-1-1-1-faster-safer-internet/com.cloudflare.onedotonedotonedotone" # broken
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -56,23 +56,23 @@ uptodown-dlurl = "https://camscanner-pdf-creator.en.uptodown.com/android"
 version = "auto"
 
 [casetracker]
-# package-name = com.saldous.casetracker
 # apkcombo-dlurl = "https://apkcombo.com/search/com.saldous.casetracker"
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/saldous/case-tracker-for-uscis/" # broken
+# package-name = com.saldous.casetracker
+# uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
+apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.usciscasetracker/"
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
 enabled = true
 patches-source = "rushiranpise/morphe-patches"
-apkpure-dlurl = "https://apkpure.com/case-tracker-for-uscis/com.saldous.usciscasetracker/"
 rv-brand = "Morphe"
-# uptodown-dlurl = "https://case-tracker-for-uscis.en.uptodown.com/android"
 
 [citizen]
-# package-name = sp0n.citizen
 # apkcombo-dlurl = "https://apkcombo.com/search/sp0n.citizen/"
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/sp0n-inc/citizen-safety-awareness/"
 # apkpure-dlurl = "https://apkpure.com/citizen-protect-the-world/sp0n.citizen"
+# package-name = sp0n.citizen
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -83,9 +83,9 @@ uptodown-dlurl = "https://citizen.en.uptodown.com/android"
 version = "auto"
 
 [crimeradar]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/newsbreak-inc/crimeradar-dispatch-alerts/" # broken
 # package-name = com.newsbreak.crimeradar
 apkcombo-dlurl = "https://apkcombo.com/search/com.newsbreak.crimeradar"
-# apkmirror-dlurl = "https://www.apkmirror.com/apk/newsbreak-inc/crimeradar-dispatch-alerts/" # broken
 apkpure-dlurl = "https://apkpure.com/crimeradar-dispatch-alerts/com.newsbreak.crimeradar"
 arch = "arm64-v8a"
 build-mode = "apk"
@@ -290,10 +290,10 @@ uptodown-dlurl = "https://protonmail.en.uptodown.com/android"
 version = "auto"
 
 [Proton-Vpn-Paresh]
-# package-name = ch.protonvpn.android
 # apkcombo-dlurl = "https://apkcombo.com/search/ch.protonvpn.android/"
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/proton-technologies-ag/protonvpn-secure-and-free-vpn"
 # apkpure-dlurl = "https://apkpure.com/protonvpn-secure-and-free-vpn/ch.protonvpn.android" # broken
+# package-name = ch.protonvpn.android
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -305,10 +305,10 @@ uptodown-dlurl = "https://protonvpn.en.uptodown.com/android"
 version = "auto"
 
 [Reddit]
-# package-name = com.reddit.frontpage
 # apkcombo-dlurl = "https://apkcombo.com/search/com.reddit.frontpage/"
 # apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
 # apkpure-dlurl = "https://apkpure.com/reddit/com.reddit.frontpage"
+# package-name = com.reddit.frontpage
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -333,10 +333,10 @@ uptodown-dlurl = "https://speedtest-net-mobile.en.uptodown.com/android"
 version = "auto"
 
 [Splitwise]
+# apkpure-dlurl = "https://apkpure.com/splitwise/com.Splitwise.SplitwiseMobile" # broken
 # package-name = com.Splitwise.SplitwiseMobile
 apkcombo-dlurl = "https://apkcombo.com/search/com.Splitwise.SplitwiseMobile/"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/splitwise/splitwise"
-# apkpure-dlurl = "https://apkpure.com/splitwise/com.Splitwise.SplitwiseMobile" # broken
 arch = "arm64-v8a"
 build-mode = "apk"
 dpi = "nodpi anydpi"
@@ -347,9 +347,9 @@ uptodown-dlurl = "https://splitwise.en.uptodown.com/android"
 version = "auto"
 
 [Strava]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/strava/strava-run-hike-android-exercise-laugh/" # broken
 # package-name = com.strava
 apkcombo-dlurl = "https://apkcombo.com/search/com.strava/"
-# apkmirror-dlurl = "https://www.apkmirror.com/apk/strava/strava-run-hike-android-exercise-laugh/" # broken
 apkpure-dlurl = "https://apkpure.com/strava-run-hike-android-exercise-laugh/com.strava"
 arch = "arm64-v8a"
 build-mode = "apk"
@@ -390,9 +390,9 @@ uptodown-dlurl = "https://tiktok.en.uptodown.com/android"
 version = "auto"
 
 [Transit]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/transit-app-inc/transit-real-time-transit-app"
 # package-name = com.thetransitapp.droid
 apkcombo-dlurl = "https://apkcombo.com/search/com.thetransitapp.droid/"
-# apkmirror-dlurl = "https://www.apkmirror.com/apk/transit-app-inc/transit-real-time-transit-app"
 apkpure-dlurl = "https://apkpure.com/transit-subway-bus-times/com.thetransitapp.droid"
 arch = "arm64-v8a"
 build-mode = "apk"
@@ -439,9 +439,9 @@ uptodown-dlurl = "https://twitter.en.uptodown.com/android/"
 version = "11.81.0-release.0"
 
 [Unimote]
+# apkmirror-dlurl = "https://www.apkmirror.com/apk/sensustech/universal-tv-remote-control/" # broken
 # package-name = sensustech.universal.tv.remote.control
 apkcombo-dlurl = "https://apkcombo.com/search/com.sensustech.universal.tv.remote.control/"
-# apkmirror-dlurl = "https://www.apkmirror.com/apk/sensustech/universal-tv-remote-control/" # broken
 apkpure-dlurl = "https://apkpure.com/universal-tv-remote-control/sensustech.universal.tv.remote.control"
 arch = "arm64-v8a"
 build-mode = "apk"
