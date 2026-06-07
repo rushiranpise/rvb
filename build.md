@@ -1,5 +1,4 @@
-Reddit (arm64-v8a): 2026.14.0  
-crimeradar (arm64-v8a): 26.22.0  
+casetracker (arm64-v8a): 1.33  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -8,9 +7,6 @@ crimeradar (arm64-v8a): 26.22.0
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.0-all.jar  
-Patches: MorpheApp/patches-1.30.0.mpp  
-[Changelog](https://github.com/MorpheApp/morphe-patches/releases/tag/v1.30.0)
-
 Patches: Paresh-Maheshwari/patches-1.18.0.mpp  
 [Changelog](https://gitlab.com/Paresh-Maheshwari/paresh-patches/-/releases/v1.18.0)
 
