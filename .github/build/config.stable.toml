@@ -202,6 +202,20 @@ included-patches = """\
     'Enable DCIM folders backup control' \
     """
 
+[greenify]
+# package-name = com.oasisfeng.greenify
+apkcombo-dlurl = "https://apkcombo.com/search/com.oasisfeng.greenify"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/oasis-feng/greenify/"
+apkpure-dlurl = "https://apkpure.com/greenify/com.oasisfeng.greenify"
+arch = "arm64-v8a"
+build-mode = "apk"
+dpi = "nodpi anydpi"
+enabled = true
+patches-source = "rushiranpise/morphe-patches"
+rv-brand = "Morphe"
+uptodown-dlurl = "https://greenify.en.uptodown.com/android"
+version = "auto"
+
 [Instagram]
 # package-name = com.instagram.android
 apkcombo-dlurl = "https://apkcombo.com/search/com.instagram.android/"
