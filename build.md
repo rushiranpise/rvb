@@ -1,8 +1,6 @@
-Adguard (arm64-v8a): 4.12.81  
-CamScanner (arm64-v8a): 7.15.5.2604080000  
-Duolingo (arm64-v8a): 6.82.3  
-WPS-Office (arm64-v8a): 18.24  
-Xodo (arm64-v8a): 10.13.0  
+Music (arm64-v8a): 8.51.51  
+Reddit (arm64-v8a): 2026.14.0  
+YouTube (arm64-v8a): 20.51.39  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -11,5 +9,5 @@ Xodo (arm64-v8a): 10.13.0
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.0-all.jar  
-Patches: hoo-dles/patches-1.35.0-dev.3.mpp  
-[Changelog](https://github.com/hoo-dles/morphe-patches/releases/tag/v1.35.0-dev.3)  
+Patches: MorpheApp/patches-1.31.0-dev.9.mpp  
+[Changelog](https://github.com/MorpheApp/morphe-patches/releases/tag/v1.31.0-dev.9)  
