@@ -11,5 +11,5 @@ Xodo (arm64-v8a): 10.13.0
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.1-all.jar  
-Patches: hoo-dles/patches-1.35.0.mpp  
-[Changelog](https://github.com/hoo-dles/morphe-patches/releases/tag/v1.35.0)  
+Patches: hoo-dles/patches-1.35.1-dev.1.mpp  
+[Changelog](https://github.com/hoo-dles/morphe-patches/releases/tag/v1.35.1-dev.1)  
