@@ -80,7 +80,7 @@
   },
   "rvxtra": {
     "repo": "BholeyKaBhakt/revanced-patches-xtra",
-    "stable": "v2.4.0",
+    "stable": "v2.5.0",
     "prerelease": "v2.5.0-dev.1",
     "blocked": false
   },
