@@ -9,5 +9,5 @@ YouTube (arm64-v8a): 20.51.39
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.1-all.jar  
-Patches: MorpheApp/patches-1.31.0-dev.11.mpp  
-[Changelog](https://github.com/MorpheApp/morphe-patches/releases/tag/v1.31.0-dev.11)  
+Patches: MorpheApp/patches-1.31.0-dev.12.mpp  
+[Changelog](https://github.com/MorpheApp/morphe-patches/releases/tag/v1.31.0-dev.12)  
