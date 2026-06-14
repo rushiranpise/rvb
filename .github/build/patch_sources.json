@@ -37,8 +37,8 @@
   },
   "adobo": {
     "repo": "jkennethcarino/adobo",
-    "stable": "v1.1.0",
-    "prerelease": "v1.2.0-dev.6",
+    "stable": "v1.2.0",
+    "prerelease": "v1.2.0-dev.9",
     "blocked": false
   },
   "rvexp": {
@@ -80,8 +80,8 @@
   },
   "rvxtra": {
     "repo": "BholeyKaBhakt/revanced-patches-xtra",
-    "stable": "v2.7.0",
-    "prerelease": "v2.7.0-dev.1",
+    "stable": "v2.8.2",
+    "prerelease": "v2.0.4-dev.1",
     "blocked": false
   },
   "meta": {
