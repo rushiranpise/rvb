@@ -50,7 +50,7 @@
   "brosssh": {
     "repo": "brosssh/morphe-patches",
     "stable": "v2.6.3",
-    "prerelease": "v2.6.4-dev.1",
+    "prerelease": "v2.7.0-dev.1",
     "blocked": false
   },
   "binarymend": {
