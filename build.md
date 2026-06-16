@@ -8,5 +8,5 @@ Twitter (arm64-v8a): 11.81.0-release.0
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.1-all.jar  
-Patches: crimera/patches-3.5.0-dev.8.mpp  
-[Changelog](https://github.com/crimera/piko/releases/tag/v3.5.0-dev.8)  
+Patches: crimera/patches-3.5.0.mpp  
+[Changelog](https://github.com/crimera/piko/releases/tag/v3.5.0)  
