@@ -1,5 +1,4 @@
 Instagram (arm64-v8a): 430.0.0.53.80  
-Twitter (arm64-v8a): 11.81.0-release.0  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -8,5 +7,5 @@ Twitter (arm64-v8a): 11.81.0-release.0
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.1-all.jar  
-Patches: crimera/patches-3.5.1-dev.1.mpp  
-[Changelog](https://github.com/crimera/piko/releases/tag/v3.5.1-dev.1)  
+Patches: crimera/patches-3.6.0-dev.1.mpp  
+[Changelog](https://github.com/crimera/piko/releases/tag/v3.6.0-dev.1)  
