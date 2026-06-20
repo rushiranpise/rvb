@@ -1,6 +1,5 @@
-Music (arm64-v8a): 9.15.51  
-Reddit (arm64-v8a): 2026.14.0  
-YouTube (arm64-v8a): 20.51.39  
+Komoot (arm64-v8a): 2025.38.2  
+Mapy (arm64-v8a): 26.5.0  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -9,5 +8,5 @@ YouTube (arm64-v8a): 20.51.39
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.1-all.jar  
-Patches: MorpheApp/patches-1.32.0-dev.4.mpp  
-[Changelog](https://github.com/MorpheApp/morphe-patches/releases/tag/v1.32.0-dev.4)  
+Patches: brosssh/patches-2.7.0-dev.3.mpp  
+[Changelog](https://github.com/brosssh/morphe-patches/releases/tag/v2.7.0-dev.3)  
