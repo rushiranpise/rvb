@@ -1,4 +1,5 @@
-Instagram (arm64-v8a): 430.0.0.53.80  
+Komoot (arm64-v8a): 2025.38.2  
+Mapy (arm64-v8a): 26.5.0  
 
 **Notes:**  
 • Install [MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest) or [MicroG](https://github.com/ReVanced/GmsCore/releases/latest), required for Google APKs.  
@@ -7,5 +8,5 @@ Instagram (arm64-v8a): 430.0.0.53.80
 [GitHub](https://github.com/nullcpy/rvb) | [Group](https://t.me/rvb27) | [Donate](https://fahim-ahmed05.github.io/donate) | [Website](https://nullcpy.github.io)
   
 CLI: MorpheApp/morphe-cli-1.9.1-all.jar  
-Patches: crimera/patches-3.7.0-dev.3.mpp  
-[Changelog](https://github.com/crimera/piko/releases/tag/v3.7.0-dev.3)  
+Patches: brosssh/patches-2.7.0.mpp  
+[Changelog](https://github.com/brosssh/morphe-patches/releases/tag/v2.7.0)  
